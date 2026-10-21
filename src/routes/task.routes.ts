@@ -17,27 +17,17 @@ import { validateTitle } from "../middlewares/validate-title.middleware.js";
 
 export const taskRouter = Router();
 
+taskRouter.param("id", validateId);
+
 taskRouter.get("/", getTasks);
-
+taskRouter.get("/:id", getTask);
 taskRouter.post("/", requireJson, validateTitle, postTask);
-
-taskRouter.get("/:id", validateId, getTask);
-
-taskRouter.patch(
-  "/:id",
-  validateId,
-  requireJson,
-  validateTitle,
-  patchTaskTitle,
-);
-
-taskRouter.patch("/:id/complete", validateId, patchTaskComplete);
+taskRouter.patch("/:id", requireJson, validateTitle, patchTaskTitle);
+taskRouter.patch("/:id/complete", patchTaskComplete);
 taskRouter.patch(
   "/:id/status",
-  validateId,
   requireJson,
   validateCompleted,
   patchTaskStatus,
 );
-
-taskRouter.delete("/:id", validateId, removeTask);
+taskRouter.delete("/:id", removeTask);

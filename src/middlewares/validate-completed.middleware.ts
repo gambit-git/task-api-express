@@ -7,20 +7,21 @@ export const validateCompleted = (
   res: Response,
   next: NextFunction,
 ): void => {
-  const completed = req.body?.completed;
+  const completed: unknown = req.body?.completed;
 
   if (typeof completed !== "boolean") {
     next(
       new AppError(
-        "El campo completed debe ser booleano.",
+        "La solicitud contiene datos inválidos.",
         422,
         "VALIDATION_ERROR",
-        { field: "completed" },
+        [{ field: "completed", message: "Debe ser true o false." }],
       ),
     );
     return;
   }
 
   res.locals.completed = completed;
+
   next();
 };

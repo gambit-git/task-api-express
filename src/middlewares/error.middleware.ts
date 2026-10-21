@@ -1,50 +1,56 @@
 import type { NextFunction, Request, Response } from "express";
 
 import { AppError } from "../errors/app-error.js";
+import type { ApiErrorPayload } from "../types/api-error.js";
 
-type JsonParseError = SyntaxError & {
-  status?: number;
-  type?: string;
+const isInvalidJson = (error: unknown): boolean =>
+  error instanceof SyntaxError && "status" in error && error.status === 400;
+
+const sendError = (
+  res: Response,
+  status: number,
+  payload: ApiErrorPayload,
+): void => {
+  res.status(status).json({ error: payload });
 };
 
 export const errorHandler = (
   error: unknown,
   _req: Request,
   res: Response,
-  _next: NextFunction,
+  next: NextFunction,
 ): void => {
-  const requestId = res.locals.requestId as string;
-
-  if (
-    error instanceof SyntaxError &&
-    (error as JsonParseError).status === 400 &&
-    (error as JsonParseError).type === "entity.parse.failed"
-  ) {
-    res.status(400).json({
-      code: "INVALID_JSON",
-      message: "El cuerpo JSON no es válido.",
-      requestId,
-    });
-
+  if (res.headersSent) {
+    next(error);
     return;
   }
+
+  const requestId = res.locals.requestId as string | undefined;
 
   if (error instanceof AppError) {
-    res.status(error.statusCode).json({
+    sendError(res, error.statusCode, {
       code: error.code,
       message: error.message,
-      ...(error.details !== undefined ? { details: error.details } : {}),
+      details: error.details,
       requestId,
     });
-
     return;
   }
 
-  console.error(error);
+  if (isInvalidJson(error)) {
+    sendError(res, 400, {
+      code: "INVALID_JSON",
+      message: "El cuerpo contiene JSON inválido.",
+      requestId,
+    });
+    return;
+  }
 
-  res.status(500).json({
+  console.error({ requestId, error });
+
+  sendError(res, 500, {
     code: "INTERNAL_ERROR",
-    message: "Error interno del servidor.",
+    message: "Ocurrió un error interno.",
     requestId,
   });
 };

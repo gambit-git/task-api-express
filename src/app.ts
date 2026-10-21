@@ -18,7 +18,4 @@ app.get("/health", (_req, res) => {
 app.use("/api/tasks", taskRouter);
 
 app.use(notFound);
-app.get("/test-error", () => {
-  throw new Error("Error de prueba");
-});
 app.use(errorHandler);

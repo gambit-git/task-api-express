@@ -1,11 +1,17 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 
-export const notFound = (req: Request, res: Response): void => {
-  const requestId = res.locals.requestId as string;
+import { AppError } from "../errors/app-error.js";
 
-  res.status(404).json({
-    code: "ROUTE_NOT_FOUND",
-    message: `No existe ${req.method} ${req.originalUrl}.`,
-    requestId,
-  });
+export const notFound = (
+  req: Request,
+  _res: Response,
+  next: NextFunction,
+): void => {
+  next(
+    new AppError(
+      `No existe ${req.method} ${req.originalUrl}.`,
+      404,
+      "ROUTE_NOT_FOUND",
+    ),
+  );
 };

@@ -2,6 +2,24 @@ import { tasks } from "../data/tasks.js";
 import { AppError } from "../errors/app-error.js";
 import type { Task } from "../models/task.js";
 
+const titleError = (message: string): AppError =>
+  new AppError(
+    "La solicitud contiene datos inválidos.",
+    422,
+    "VALIDATION_ERROR",
+    [{ field: "title", message }],
+  );
+
+function assertValidTitle(title: unknown): asserts title is string {
+  if (typeof title !== "string" || !title.trim()) {
+    throw titleError("Debe ser texto no vacío.");
+  }
+
+  if (title.trim().length > 120) {
+    throw titleError("No debe superar 120 caracteres.");
+  }
+}
+
 export const listTasks = (): readonly Task[] => tasks;
 
 export const findTaskById = (id: number): Task => {
@@ -19,13 +37,7 @@ export const findTaskById = (id: number): Task => {
 };
 
 export const createTask = (title: unknown): Task => {
-  if (typeof title !== "string" || !title.trim()) {
-    throw new AppError(
-      "El campo title es obligatorio.",
-      422,
-      "VALIDATION_ERROR",
-    );
-  }
+  assertValidTitle(title);
 
   const task: Task = {
     id: Math.max(0, ...tasks.map((item) => item.id)) + 1,
@@ -62,13 +74,7 @@ export const deleteTask = (id: number): void => {
 };
 
 export const updateTaskTitle = (id: number, title: unknown): Task => {
-  if (typeof title !== "string" || !title.trim()) {
-    throw new AppError(
-      "El campo title es obligatorio.",
-      422,
-      "VALIDATION_ERROR",
-    );
-  }
+  assertValidTitle(title);
 
   const task = findTaskById(id);
 

@@ -1,0 +1,7 @@
+$kind: http-request
+url: http://localhost:3000/api/tasks
+method: POST
+body:
+  type: text
+  content: "Probar validacion"
+order: 8000

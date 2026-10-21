@@ -8,11 +8,11 @@
 | 4   | PATCH  | /api/tasks/3/complete | No aplica                                 |      200 |      200 | Aprobada  |
 | 5   | DELETE | /api/tasks/3          | No aplica                                 |      204 |      204 | Aprobada  |
 | 6   | GET    | /api/tasks/3          | No aplica                                 |      404 |      404 | Aprobada  |
-| 7   | POST   | /api/tasks            | `{"title":""}`                            |      400 |      400 | Aprobada  |
+| 7   | POST   | /api/tasks            | `{"title":""}`                            |      422 |      422 | Aprobada  |
 | 8   | GET    | /api/tasks/abc        | No aplica                                 |      400 |      400 | Aprobada  |
 | 9   | GET    | /ruta-inexistente     | No aplica                                 |      404 |      404 | Aprobada  |
 | 10  | PATCH  | /api/tasks/2          | `{"title":"Practicar Express y Postman"}` |      200 |      200 | Aprobada  |
-| 11  | PATCH  | /api/tasks/2          | `{"title":""}`                            |      400 |      400 | Aprobada  |
+| 11  | PATCH  | /api/tasks/2          | `{"title":""}`                            |      422 |      422 | Aprobada  |
 | 12  | PATCH  | /api/tasks/999        | `{"title":"Título nuevo"}`                |      404 |      404 | Aprobada  |
 | 13  | PATCH  | /api/tasks/2/status   | `{"completed":true}`                      |      200 |      200 | Aprobada  |
 

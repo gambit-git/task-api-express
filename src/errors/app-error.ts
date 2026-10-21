@@ -1,3 +1,5 @@
+import type { FieldIssue } from "../types/api-error.js";
+
 export type ErrorCode =
   | "INVALID_ID"
   | "INVALID_JSON"
@@ -12,7 +14,7 @@ export class AppError extends Error {
     message: string,
     public readonly statusCode: number,
     public readonly code: ErrorCode,
-    public readonly details?: unknown,
+    public readonly details?: FieldIssue[],
   ) {
     super(message);
     this.name = "AppError";

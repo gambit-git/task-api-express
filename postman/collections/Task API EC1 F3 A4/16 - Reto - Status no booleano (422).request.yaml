@@ -1,0 +1,7 @@
+$kind: http-request
+url: http://localhost:3000/api/tasks/2/status
+method: PATCH
+body:
+  type: json
+  content: "{\"completed\":\"si\"}"
+order: 16000

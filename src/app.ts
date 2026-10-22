@@ -1,21 +1,13 @@
 import express from "express";
-
+import { healthRouter } from "./routes/health.routes.js";
 import { taskRouter } from "./routes/task.routes.js";
+import { requestIdMiddleware } from "./middlewares/request-id.middleware.js";
 import { notFound } from "./middlewares/not-found.middleware.js";
 import { errorHandler } from "./middlewares/error.middleware.js";
-import { requestIdMiddleware } from "./middlewares/request-id.middleware.js";
-
 export const app = express();
-
 app.use(requestIdMiddleware);
-
 app.use(express.json());
-
-app.get("/health", (_req, res) => {
-  res.status(200).json({ status: "ok" });
-});
-
+app.use("/health", healthRouter);
 app.use("/api/tasks", taskRouter);
-
 app.use(notFound);
 app.use(errorHandler);

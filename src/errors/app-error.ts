@@ -7,6 +7,7 @@ export type ErrorCode =
   | "ROUTE_NOT_FOUND"
   | "UNSUPPORTED_MEDIA_TYPE"
   | "VALIDATION_ERROR"
+  | "DATABASE_UNAVAILABLE"
   | "INTERNAL_ERROR";
 
 export class AppError extends Error {

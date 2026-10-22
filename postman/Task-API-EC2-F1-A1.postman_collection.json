@@ -1,0 +1,10 @@
+{
+  "info": {
+    "name": "Task API EC2 F1 A1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [],
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000", "type": "string" }
+  ]
+}

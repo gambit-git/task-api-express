@@ -1,6 +1,6 @@
 # Task API Express
 
-API REST de gestión de tareas construida con Node.js, TypeScript y Express 5. Las tareas se guardan en un arreglo en memoria (se reinician al reiniciar el servidor). El proyecto incluye la configuración de conexión con MongoDB Atlas mediante Mongoose, usada por ahora solo para diagnóstico de salud.
+API REST de gestión de tareas construida con Node.js, TypeScript y Express 5. Las tareas se guardan en MongoDB Atlas mediante Mongoose y permanecen disponibles después de reiniciar la API.
 
 ## Requisitos
 
@@ -34,7 +34,7 @@ Edita `.env` con tus valores reales. Nunca subas `.env` a Git.
 pnpm dev           # servidor con recarga (tsx watch)
 pnpm check         # comprobación de tipos (tsc --noEmit)
 pnpm lint          # ESLint
-pnpm test          # pruebas del servicio
+pnpm test          # pruebas del modelo y los middlewares
 pnpm build         # compila a dist/
 pnpm start         # ejecuta dist/server.js
 pnpm format        # prettier --write
@@ -49,13 +49,13 @@ pnpm format:check  # prettier --check
 | GET    | `/health/database`        | Ping a MongoDB (503 si no responde)         |
 | GET    | `/api/tasks`              | Lista las tareas                            |
 | GET    | `/api/tasks/:id`          | Consulta una tarea                          |
-| POST   | `/api/tasks`              | Crea una tarea (`{"title": "..."}`)         |
+| POST   | `/api/tasks`              | Crea una tarea (`{"title": "...", "description": "..."}`; la descripción es opcional, máx. 300) |
 | PATCH  | `/api/tasks/:id`          | Edita el título                             |
 | PATCH  | `/api/tasks/:id/complete` | Marca la tarea como completada              |
 | PATCH  | `/api/tasks/:id/status`   | Actualiza el estado (`{"completed": true}`) |
 | DELETE | `/api/tasks/:id`          | Elimina una tarea                           |
 
-Cada respuesta incluye el encabezado `X-Request-Id`. Los errores usan los códigos `INVALID_ID`, `INVALID_JSON`, `TASK_NOT_FOUND`, `ROUTE_NOT_FOUND`, `UNSUPPORTED_MEDIA_TYPE`, `VALIDATION_ERROR`, `DATABASE_UNAVAILABLE` e `INTERNAL_ERROR`.
+Cada respuesta incluye el encabezado `X-Request-Id`. Los errores usan los códigos `INVALID_ID`, `INVALID_JSON`, `TASK_NOT_FOUND`, `ROUTE_NOT_FOUND`, `UNSUPPORTED_MEDIA_TYPE`, `VALIDATION_ERROR`, `PERSISTENCE_VALIDATION_ERROR`, `DATABASE_UNAVAILABLE` e `INTERNAL_ERROR`.
 
 ## Estructura
 
@@ -63,10 +63,9 @@ Cada respuesta incluye el encabezado `X-Request-Id`. Los errores usan los códig
 src/
   config/        configuración de entorno y conexión a MongoDB
   controllers/   traducen HTTP a llamadas al servicio
-  data/          datos temporales en memoria
   errors/        AppError
   middlewares/   request id, validaciones, notFound y errorHandler
-  models/        tipos (Task)
+  models/        modelo de Mongoose y tipos (Task, TaskPersistence)
   routes/        rutas de tareas y de salud
   services/      reglas de negocio
   utils/         utilidades
@@ -74,8 +73,28 @@ src/
   server.ts      conecta a la base de datos y abre el puerto
 docs/            pruebas y reflexiones
 postman/         colecciones de Postman
-tests/           pruebas del servicio
+tests/           pruebas del modelo y los middlewares
 ```
+
+## Modelo de datos
+
+Colección `tasks` en la base `task_api`:
+
+| Campo         | Regla                                                  |
+| ------------- | ------------------------------------------------------ |
+| `title`       | obligatorio, `trim`, máximo 120 caracteres             |
+| `description` | opcional, `trim`, máximo 300 caracteres                |
+| `status`      | `pending` (predeterminado) o `completed`               |
+| `createdAt`   | automático (`timestamps`)                              |
+| `updatedAt`   | automático (`timestamps`)                              |
+
+`versionKey` está desactivado. La API devuelve `id` (string) en lugar de `_id` y nunca expone `__v`. Un id que no sea un ObjectId de 24 caracteres hexadecimales produce `400 INVALID_ID`.
+
+## Documentación de las actividades
+
+- `docs/pruebas-conexion-mongodb.md` y `docs/reflexion-mongodb.md` (A5)
+- `docs/pruebas-persistencia-mongodb.md` y `docs/reflexion-modelado-mongodb.md` (A6)
+- `postman/Task-API-EC2-F2-A6.postman_collection.json`: carpeta **EC2 F2 A6 Persistencia**
 
 ## Seguridad
 

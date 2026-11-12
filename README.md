@@ -43,17 +43,17 @@ pnpm format:check  # prettier --check
 
 ## Endpoints
 
-| Método | Ruta                      | Descripción                                 |
-| ------ | ------------------------- | ------------------------------------------- |
-| GET    | `/health`                 | Estado del servidor                         |
-| GET    | `/health/database`        | Ping a MongoDB (503 si no responde)         |
-| GET    | `/api/tasks`              | Lista las tareas                            |
-| GET    | `/api/tasks/:id`          | Consulta una tarea                          |
+| Método | Ruta                      | Descripción                                                                                     |
+| ------ | ------------------------- | ----------------------------------------------------------------------------------------------- |
+| GET    | `/health`                 | Estado del servidor                                                                             |
+| GET    | `/health/database`        | Ping a MongoDB (503 si no responde)                                                             |
+| GET    | `/api/tasks`              | Lista las tareas                                                                                |
+| GET    | `/api/tasks/:id`          | Consulta una tarea                                                                              |
 | POST   | `/api/tasks`              | Crea una tarea (`{"title": "...", "description": "..."}`; la descripción es opcional, máx. 300) |
-| PATCH  | `/api/tasks/:id`          | Edita el título                             |
-| PATCH  | `/api/tasks/:id/complete` | Marca la tarea como completada              |
-| PATCH  | `/api/tasks/:id/status`   | Actualiza el estado (`{"completed": true}`) |
-| DELETE | `/api/tasks/:id`          | Elimina una tarea                           |
+| PATCH  | `/api/tasks/:id`          | Edita el título                                                                                 |
+| PATCH  | `/api/tasks/:id/complete` | Marca la tarea como completada                                                                  |
+| PATCH  | `/api/tasks/:id/status`   | Actualiza el estado (`{"completed": true}`)                                                     |
+| DELETE | `/api/tasks/:id`          | Elimina una tarea                                                                               |
 
 Cada respuesta incluye el encabezado `X-Request-Id`. Los errores usan los códigos `INVALID_ID`, `INVALID_JSON`, `TASK_NOT_FOUND`, `ROUTE_NOT_FOUND`, `UNSUPPORTED_MEDIA_TYPE`, `VALIDATION_ERROR`, `PERSISTENCE_VALIDATION_ERROR`, `DATABASE_UNAVAILABLE` e `INTERNAL_ERROR`.
 
@@ -80,13 +80,13 @@ tests/           pruebas del modelo y los middlewares
 
 Colección `tasks` en la base `task_api`:
 
-| Campo         | Regla                                                  |
-| ------------- | ------------------------------------------------------ |
-| `title`       | obligatorio, `trim`, máximo 120 caracteres             |
-| `description` | opcional, `trim`, máximo 300 caracteres                |
-| `status`      | `pending` (predeterminado) o `completed`               |
-| `createdAt`   | automático (`timestamps`)                              |
-| `updatedAt`   | automático (`timestamps`)                              |
+| Campo         | Regla                                      |
+| ------------- | ------------------------------------------ |
+| `title`       | obligatorio, `trim`, máximo 120 caracteres |
+| `description` | opcional, `trim`, máximo 300 caracteres    |
+| `status`      | `pending` (predeterminado) o `completed`   |
+| `createdAt`   | automático (`timestamps`)                  |
+| `updatedAt`   | automático (`timestamps`)                  |
 
 `versionKey` está desactivado. La API devuelve `id` (string) en lugar de `_id` y nunca expone `__v`. Un id que no sea un ObjectId de 24 caracteres hexadecimales produce `400 INVALID_ID`.
 

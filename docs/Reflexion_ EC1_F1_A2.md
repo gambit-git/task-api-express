@@ -1,6 +1,6 @@
 # Reflexión — EC1 F1 A2
 
-**Nombre:** Gerard Andrei Hincapié Méndez  
+**Nombre:** Gerard Andrei Hincapié Méndez
 
 ## 1. ¿Cuál es la función de Node.js en este proyecto?
 

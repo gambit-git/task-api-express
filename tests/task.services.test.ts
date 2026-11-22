@@ -6,6 +6,8 @@ import type { NextFunction, Request, Response } from "express";
 import { AppError } from "../src/errors/app-error.js";
 import { validateDescription } from "../src/middlewares/validate-description.middleware.js";
 import { validateId } from "../src/middlewares/validate-id.middleware.js";
+import { validatePriority } from "../src/middlewares/validate-priority.middleware.js";
+import { validateTaskUpdate } from "../src/middlewares/validate-task-update.middleware.js";
 import { TaskModel } from "../src/models/task.js";
 
 const run = (
@@ -62,6 +64,63 @@ test("description is optional", () => {
     new TaskModel({ title: "ok", description: "a".repeat(300) }).validateSync(),
     undefined,
   );
+});
+
+test("priority defaults to medium and accepts only low, medium and high", () => {
+  assert.equal(new TaskModel({ title: "ok" }).priority, "medium");
+
+  for (const priority of ["low", "medium", "high"]) {
+    assert.equal(
+      new TaskModel({ title: "ok", priority }).validateSync(),
+      undefined,
+    );
+  }
+
+  assert.ok(
+    new TaskModel({ title: "ok", priority: "urgent" }).validateSync()?.errors
+      .priority,
+  );
+});
+
+test("validatePriority is optional and rejects unknown values", () => {
+  assert.equal(run(validatePriority, {}).error, undefined);
+  assert.equal(
+    run(validatePriority, { priority: "high" }).locals.priority,
+    "high",
+  );
+
+  const invalid = run(validatePriority, { priority: "urgent" });
+
+  assert.ok(
+    invalid.error instanceof AppError &&
+      invalid.error.code === "VALIDATION_ERROR" &&
+      invalid.error.details?.[0]?.field === "priority",
+  );
+});
+
+test("validateTaskUpdate allows partial updates and rejects bad bodies", () => {
+  const partial = run(validateTaskUpdate, { priority: "low" });
+
+  assert.equal(partial.error, undefined);
+  assert.deepEqual(partial.locals.taskUpdate, { priority: "low" });
+
+  for (const body of [
+    {},
+    [],
+    { owner: "Ana" },
+    { createdAt: "x" },
+    { title: " " },
+    { title: "a".repeat(121) },
+    { status: "archived" },
+    { priority: "urgent" },
+  ]) {
+    const result = run(validateTaskUpdate, body);
+
+    assert.ok(
+      result.error instanceof AppError && result.error.statusCode === 422,
+      `debería rechazar ${JSON.stringify(body)}`,
+    );
+  }
 });
 
 test("validateId accepts only 24-character hexadecimal ObjectIds", () => {

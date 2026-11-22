@@ -5,6 +5,7 @@ import {
   TaskModel,
   type Task,
   type TaskPersistence,
+  type TaskPriority,
   type TaskUpdate,
 } from "../models/task.js";
 
@@ -15,6 +16,7 @@ const toTask = (document: HydratedDocument<TaskPersistence>): Task => ({
     description: document.description,
   }),
   status: document.status,
+  priority: document.priority,
   createdAt: document.createdAt,
   updatedAt: document.updatedAt,
 });
@@ -75,11 +77,13 @@ export const findTaskById = async (id: string): Promise<Task> => {
 export const createTask = async (
   title: string,
   description?: string,
+  priority?: TaskPriority,
 ): Promise<Task> => {
   try {
     const document = await TaskModel.create({
       title,
       ...(description !== undefined && { description }),
+      ...(priority !== undefined && { priority }),
       status: "pending",
     });
 

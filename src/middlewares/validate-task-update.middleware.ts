@@ -2,7 +2,9 @@ import type { NextFunction, Request, Response } from "express";
 
 import { AppError } from "../errors/app-error.js";
 import {
+  TASK_PRIORITIES,
   TASK_STATUSES,
+  type TaskPriority,
   type TaskStatus,
   type TaskUpdate,
 } from "../models/task.js";
@@ -13,6 +15,10 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
 
 const isTaskStatus = (value: unknown): value is TaskStatus =>
   typeof value === "string" && TASK_STATUSES.some((status) => status === value);
+
+const isTaskPriority = (value: unknown): value is TaskPriority =>
+  typeof value === "string" &&
+  TASK_PRIORITIES.some((priority) => priority === value);
 
 export const validateTaskUpdate = (
   req: Request,
@@ -40,12 +46,12 @@ export const validateTaskUpdate = (
   if (fields.length === 0) {
     issues.push({
       field: "body",
-      message: "Incluye al menos title o status.",
+      message: "Incluye al menos title, status o priority.",
     });
   }
 
   for (const field of fields) {
-    if (field !== "title" && field !== "status") {
+    if (field !== "title" && field !== "status" && field !== "priority") {
       issues.push({ field, message: "El campo no está permitido." });
     }
   }
@@ -73,6 +79,17 @@ export const validateTaskUpdate = (
       });
     } else {
       update.status = body.status;
+    }
+  }
+
+  if ("priority" in body) {
+    if (!isTaskPriority(body.priority)) {
+      issues.push({
+        field: "priority",
+        message: "Debe ser low, medium o high.",
+      });
+    } else {
+      update.priority = body.priority;
     }
   }
 

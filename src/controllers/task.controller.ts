@@ -1,6 +1,6 @@
 import type { Request, Response } from "express";
 
-import type { TaskUpdate } from "../models/task.js";
+import type { TaskPriority, TaskUpdate } from "../models/task.js";
 import {
   completeTask,
   createTask,
@@ -26,6 +26,7 @@ export const postTask = async (_req: Request, res: Response): Promise<void> => {
   const task = await createTask(
     res.locals.title as string,
     res.locals.description as string | undefined,
+    res.locals.priority as TaskPriority | undefined,
   );
 
   res.status(201).json({ data: task });

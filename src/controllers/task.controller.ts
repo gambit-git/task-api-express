@@ -1,11 +1,13 @@
 import type { Request, Response } from "express";
 
+import type { TaskUpdate } from "../models/task.js";
 import {
   completeTask,
   createTask,
   deleteTask,
   findTaskById,
   listTasks,
+  updateTask,
   updateTaskStatus,
   updateTaskTitle,
 } from "../services/task.service.js";
@@ -34,6 +36,18 @@ export const patchTaskComplete = async (
   res: Response,
 ): Promise<void> => {
   const task = await completeTask(res.locals.taskId as string);
+
+  res.status(200).json({ data: task });
+};
+
+export const patchTask = async (
+  _req: Request,
+  res: Response,
+): Promise<void> => {
+  const task = await updateTask(
+    res.locals.taskId as string,
+    res.locals.taskUpdate as TaskUpdate,
+  );
 
   res.status(200).json({ data: task });
 };

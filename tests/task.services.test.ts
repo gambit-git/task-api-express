@@ -1,7 +1,7 @@
 /// <reference types="node" />
 
 import assert from "node:assert/strict";
-import { test } from "node:test";
+import { mock, test } from "node:test";
 import type { NextFunction, Request, Response } from "express";
 import { AppError } from "../src/errors/app-error.js";
 import { validateDescription } from "../src/middlewares/validate-description.middleware.js";
@@ -9,6 +9,7 @@ import { validateId } from "../src/middlewares/validate-id.middleware.js";
 import { validatePriority } from "../src/middlewares/validate-priority.middleware.js";
 import { validateTaskUpdate } from "../src/middlewares/validate-task-update.middleware.js";
 import { TaskModel } from "../src/models/task.js";
+import { listTasks } from "../src/services/task.service.js";
 
 const run = (
   middleware: (
@@ -120,6 +121,24 @@ test("validateTaskUpdate allows partial updates and rejects bad bodies", () => {
       result.error instanceof AppError && result.error.statusCode === 422,
       `debería rechazar ${JSON.stringify(body)}`,
     );
+  }
+});
+
+test("a storage failure becomes 503 DATABASE_UNAVAILABLE without internals", async () => {
+  const find = mock.method(TaskModel, "find", () => ({
+    sort: () => Promise.reject(new Error("mongodb://usuario:secreto@host")),
+  }));
+
+  try {
+    await assert.rejects(listTasks(), (error: unknown) => {
+      assert.ok(error instanceof AppError);
+      assert.equal(error.statusCode, 503);
+      assert.equal(error.code, "DATABASE_UNAVAILABLE");
+      assert.ok(!error.message.includes("secreto"));
+      return true;
+    });
+  } finally {
+    find.mock.restore();
   }
 });
 

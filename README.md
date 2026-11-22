@@ -47,7 +47,7 @@ pnpm format:check  # prettier --check
 | ------ | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | GET    | `/health`                 | Estado del servidor                                                                                                                                      |
 | GET    | `/health/database`        | Ping a MongoDB (503 si no responde)                                                                                                                      |
-| GET    | `/api/tasks`              | Lista las tareas                                                                                                                                         |
+| GET    | `/api/tasks`              | Lista paginada con filtro, búsqueda y orden (ver [Consulta del listado](#consulta-del-listado)); responde `{ "data": [...], "meta": {...} }`             |
 | GET    | `/api/tasks/:id`          | Consulta una tarea                                                                                                                                       |
 | POST   | `/api/tasks`              | Crea una tarea (`{"title": "...", "description": "...", "priority": "high"}`; `description` y `priority` son opcionales)                                 |
 | PATCH  | `/api/tasks/:id`          | Actualización parcial: `title`, `status` (`pending` o `completed`), `priority` o varios a la vez. Rechaza cuerpos vacíos, arreglos y campos desconocidos |
@@ -55,7 +55,53 @@ pnpm format:check  # prettier --check
 | PATCH  | `/api/tasks/:id/status`   | Actualiza el estado (`{"completed": true}`)                                                                                                              |
 | DELETE | `/api/tasks/:id`          | Elimina una tarea                                                                                                                                        |
 
-Cada respuesta incluye el encabezado `X-Request-Id`. Los errores usan los códigos `INVALID_ID`, `INVALID_JSON`, `TASK_NOT_FOUND`, `ROUTE_NOT_FOUND`, `UNSUPPORTED_MEDIA_TYPE`, `VALIDATION_ERROR`, `PERSISTENCE_VALIDATION_ERROR`, `DATABASE_UNAVAILABLE` e `INTERNAL_ERROR`.
+Cada respuesta incluye el encabezado `X-Request-Id`. Los errores usan los códigos `INVALID_ID`, `INVALID_JSON`, `TASK_NOT_FOUND`, `ROUTE_NOT_FOUND`, `UNSUPPORTED_MEDIA_TYPE`, `VALIDATION_ERROR`, `QUERY_VALIDATION_ERROR`, `PERSISTENCE_VALIDATION_ERROR`, `DATABASE_UNAVAILABLE` e `INTERNAL_ERROR`.
+
+## Consulta del listado
+
+`GET /api/tasks` acepta estos parámetros (todos opcionales, una sola vez cada uno). Cualquier parámetro desconocido, repetido o inválido responde `422 QUERY_VALIDATION_ERROR` con el detalle en `details`.
+
+| Parámetro     | Predeterminado | Regla                                                                                                                                             |
+| ------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `page`        | `1`            | Entero entre 1 y 100000                                                                                                                           |
+| `limit`       | `10`           | Entero entre 1 y 50                                                                                                                               |
+| `status`      | sin filtro     | `pending` o `completed`                                                                                                                           |
+| `search`      | sin búsqueda   | Texto no vacío de hasta 60 caracteres; coincidencia parcial en `title`, sin distinguir mayúsculas; los caracteres especiales se tratan como texto |
+| `sortBy`      | `createdAt`    | `createdAt`, `updatedAt`, `title` o `status`                                                                                                      |
+| `order`       | `asc`          | `asc` o `desc`                                                                                                                                    |
+| `createdFrom` | sin filtro     | Fecha ISO 8601 (`2026-11-01` o `2026-11-01T00:00:00Z`); aplica `createdAt >= createdFrom`                                                         |
+| `createdTo`   | sin filtro     | Fecha ISO 8601; aplica `createdAt <= createdTo` y no puede ser anterior a `createdFrom`                                                           |
+
+Una fecha sin hora equivale a las 00:00:00 UTC de ese día. En una URL, el signo `+` de un desfase horario debe escribirse `%2B`.
+
+```text
+GET /api/tasks?page=2&limit=5&status=pending&search=api&sortBy=title&order=asc
+```
+
+```json
+{
+  "data": [
+    {
+      "id": "<OBJECT_ID>",
+      "title": "Probar API",
+      "status": "pending",
+      "priority": "medium",
+      "createdAt": "<FECHA_ISO>",
+      "updatedAt": "<FECHA_ISO>"
+    }
+  ],
+  "meta": {
+    "page": 2,
+    "limit": 5,
+    "total": 8,
+    "totalPages": 2,
+    "hasNextPage": false,
+    "hasPreviousPage": true
+  }
+}
+```
+
+Sin parámetros se conserva el orden `createdAt` ascendente. El orden siempre incluye `_id` como segundo criterio para que las páginas no repitan tareas.
 
 ## Estructura
 
@@ -64,10 +110,12 @@ src/
   config/        configuración de entorno y conexión a MongoDB
   controllers/   traducen HTTP a llamadas al servicio
   errors/        AppError
-  middlewares/   request id, validaciones, notFound y errorHandler
-  models/        modelo de Mongoose y tipos (Task, TaskPersistence)
+  middlewares/   request id, validaciones (incluida la consulta del listado), notFound y errorHandler
+  models/        modelo de Mongoose y tipos (Task, TaskPersistence, TaskUpdate)
+  repositories/  único acceso a Mongoose: filtros, orden, paginación y operaciones CRUD
   routes/        rutas de tareas y de salud
-  services/      reglas de negocio
+  services/      reglas de negocio y respuesta pública (meta de paginación)
+  types/         contratos tipados (errores y consulta del listado)
   utils/         utilidades
   app.ts         configura Express
   server.ts      conecta a la base de datos y abre el puerto
@@ -98,6 +146,8 @@ Colección `tasks` en la base `task_api`:
 - `postman/Task-API-EC2-F2-A6.postman_collection.json`: carpeta **EC2 F2 A6 Persistencia**
 - `docs/pruebas-crud-mongodb.md` y `docs/reflexion-crud-mongodb.md` (A7)
 - `postman/Task-API-EC2-F2-A7.postman_collection.json`: carpeta **EC2 F2 A7 CRUD**
+- `docs/pruebas-consultas-tareas.md` y `docs/reflexion-consultas-tareas.md` (A8)
+- `postman/Task-API-EC2-F3-A8.postman_collection.json`: carpeta **EC2 F3 A8 Consultas**
 
 ## Seguridad
 

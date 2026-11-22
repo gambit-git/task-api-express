@@ -380,7 +380,7 @@ test("a storage failure becomes 503 DATABASE_UNAVAILABLE without internals", asy
     const chain = {
       sort: () => chain,
       skip: () => chain,
-      limit: () => Promise.reject(new Error("mongodb://usuario:secreto@host")),
+      limit: () => Promise.reject(new Error("detalle-interno-del-driver")),
     };
 
     return chain;
@@ -394,7 +394,7 @@ test("a storage failure becomes 503 DATABASE_UNAVAILABLE without internals", asy
       assert.ok(error instanceof AppError);
       assert.equal(error.statusCode, 503);
       assert.equal(error.code, "DATABASE_UNAVAILABLE");
-      assert.ok(!error.message.includes("secreto"));
+      assert.ok(!error.message.includes("detalle-interno"));
       return true;
     });
   } finally {

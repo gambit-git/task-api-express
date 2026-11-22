@@ -15,6 +15,7 @@ import { validateId } from "../middlewares/validate-id.middleware.js";
 import { validateCompleted } from "../middlewares/validate-completed.middleware.js";
 import { validateDescription } from "../middlewares/validate-description.middleware.js";
 import { validatePriority } from "../middlewares/validate-priority.middleware.js";
+import { validateTaskQuery } from "../middlewares/validate-task-query.middleware.js";
 import { validateTaskUpdate } from "../middlewares/validate-task-update.middleware.js";
 import { validateTitle } from "../middlewares/validate-title.middleware.js";
 
@@ -22,7 +23,7 @@ export const taskRouter = Router();
 
 taskRouter.param("id", validateId);
 
-taskRouter.get("/", getTasks);
+taskRouter.get("/", validateTaskQuery, getTasks);
 taskRouter.get("/:id", getTask);
 taskRouter.post(
   "/",

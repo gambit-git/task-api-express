@@ -22,6 +22,8 @@ export interface TaskListQuery {
   limit: number;
   status?: TaskStatus;
   search?: string;
+  createdFrom?: Date;
+  createdTo?: Date;
   sortBy: TaskSortField;
   order: TaskSortOrder;
 }

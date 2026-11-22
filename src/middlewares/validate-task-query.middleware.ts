@@ -23,6 +23,8 @@ const ALLOWED_QUERY_FIELDS = new Set([
   "search",
   "sortBy",
   "order",
+  "createdFrom",
+  "createdTo",
 ]);
 
 const readString = (
@@ -66,6 +68,51 @@ const parsePositiveInteger = (
   return parsed;
 };
 
+const ISO_DATE =
+  /^(\d{4})-(\d{2})-(\d{2})(?:T(\d{2}):(\d{2})(?::(\d{2})(?:\.\d{1,3})?)?(?:Z|[+-]\d{2}:\d{2}))?$/;
+
+const parseIsoDate = (value: string): Date | undefined => {
+  const match = ISO_DATE.exec(value);
+
+  if (!match) return undefined;
+
+  const [, year, month, day, hour = "0", minute = "0", second = "0"] = match;
+  const calendar = new Date(
+    Date.UTC(Number(year), Number(month) - 1, Number(day)),
+  );
+
+  if (
+    calendar.getUTCFullYear() !== Number(year) ||
+    calendar.getUTCMonth() !== Number(month) - 1 ||
+    calendar.getUTCDate() !== Number(day) ||
+    Number(hour) > 23 ||
+    Number(minute) > 59 ||
+    Number(second) > 59
+  ) {
+    return undefined;
+  }
+
+  const parsed = new Date(value);
+
+  return Number.isNaN(parsed.getTime()) ? undefined : parsed;
+};
+
+const readDate = (
+  value: string | undefined,
+  field: string,
+  issues: FieldIssue[],
+): Date | undefined => {
+  if (value === undefined) return undefined;
+
+  const parsed = parseIsoDate(value);
+
+  if (parsed === undefined) {
+    issues.push({ field, message: "Debe ser una fecha ISO 8601 válida." });
+  }
+
+  return parsed;
+};
+
 const isTaskStatus = (value: string): value is TaskStatus =>
   TASK_STATUSES.some((status) => status === value);
 
@@ -95,6 +142,8 @@ export const validateTaskQuery = (
   const rawSearch = readString(query, "search", issues);
   const rawSortBy = readString(query, "sortBy", issues);
   const rawOrder = readString(query, "order", issues);
+  const rawCreatedFrom = readString(query, "createdFrom", issues);
+  const rawCreatedTo = readString(query, "createdTo", issues);
 
   const page = parsePositiveInteger(
     rawPage,
@@ -154,6 +203,20 @@ export const validateTaskQuery = (
     else issues.push({ field: "order", message: "Debe ser asc o desc." });
   }
 
+  const createdFrom = readDate(rawCreatedFrom, "createdFrom", issues);
+  const createdTo = readDate(rawCreatedTo, "createdTo", issues);
+
+  if (
+    createdFrom !== undefined &&
+    createdTo !== undefined &&
+    createdFrom.getTime() > createdTo.getTime()
+  ) {
+    issues.push({
+      field: "createdFrom",
+      message: "No debe ser posterior a createdTo.",
+    });
+  }
+
   if (issues.length > 0) {
     next(
       new AppError(
@@ -173,6 +236,8 @@ export const validateTaskQuery = (
     order,
     ...(status === undefined ? {} : { status }),
     ...(search === undefined ? {} : { search }),
+    ...(createdFrom === undefined ? {} : { createdFrom }),
+    ...(createdTo === undefined ? {} : { createdTo }),
   };
 
   res.locals.taskQuery = taskQuery;

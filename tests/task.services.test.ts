@@ -209,6 +209,76 @@ test("validateTaskQuery rejects unknown, repeated and invalid parameters", () =>
   );
 });
 
+test("validateTaskQuery accepts ISO 8601 ranges and rejects bad ones", () => {
+  const valid = runQuery({
+    createdFrom: "2026-11-01",
+    createdTo: "2026-11-30T23:59:59Z",
+  }).locals.taskQuery as TaskListQuery;
+
+  assert.equal(valid.createdFrom?.toISOString(), "2026-11-01T00:00:00.000Z");
+  assert.equal(valid.createdTo?.toISOString(), "2026-11-30T23:59:59.000Z");
+  assert.equal(
+    runQuery({ createdFrom: "2026-11-01", createdTo: "2026-11-01" }).error,
+    undefined,
+  );
+
+  const invalid: [Record<string, unknown>, string][] = [
+    [{ createdFrom: "ayer" }, "createdFrom"],
+    [{ createdTo: "2026-13-01" }, "createdTo"],
+    [{ createdFrom: "2026-02-31" }, "createdFrom"],
+    [{ createdTo: "2026-11-01T25:00:00Z" }, "createdTo"],
+    [{ createdFrom: "2026-11-01T10:00" }, "createdFrom"],
+    [{ createdFrom: ["2026-11-01", "2026-11-02"] }, "createdFrom"],
+    [{ createdFrom: "2026-11-30", createdTo: "2026-11-01" }, "createdFrom"],
+  ];
+
+  for (const [query, field] of invalid) {
+    const result = runQuery(query);
+
+    assert.ok(
+      result.error instanceof AppError &&
+        result.error.code === "QUERY_VALIDATION_ERROR" &&
+        result.error.details?.some((detail) => detail.field === field),
+      `debería rechazar ${JSON.stringify(query)}`,
+    );
+  }
+});
+
+test("listTasks applies $gte and $lte to createdAt in find and count", async () => {
+  const calls: Record<string, unknown> = {};
+  const find = mock.method(TaskModel, "find", (filter: unknown) => {
+    calls.findFilter = filter;
+
+    const chain = {
+      sort: () => chain,
+      skip: () => chain,
+      limit: () => Promise.resolve([]),
+    };
+
+    return chain;
+  });
+  const count = mock.method(TaskModel, "countDocuments", (filter: unknown) => {
+    calls.countFilter = filter;
+    return Promise.resolve(0);
+  });
+  const from = new Date("2026-11-01T00:00:00Z");
+  const to = new Date("2026-11-30T23:59:59Z");
+
+  try {
+    await listTasks({ ...DEFAULT_QUERY, createdFrom: from, createdTo: to });
+
+    assert.deepEqual(calls.findFilter, { createdAt: { $gte: from, $lte: to } });
+    assert.deepEqual(calls.countFilter, calls.findFilter);
+
+    await listTasks({ ...DEFAULT_QUERY, createdFrom: from });
+
+    assert.deepEqual(calls.findFilter, { createdAt: { $gte: from } });
+  } finally {
+    find.mock.restore();
+    count.mock.restore();
+  }
+});
+
 test("listTasks builds a safe query and a coherent meta", async () => {
   const calls: Record<string, unknown> = {};
   const find = mock.method(TaskModel, "find", (filter: unknown) => {

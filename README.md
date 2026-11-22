@@ -43,17 +43,17 @@ pnpm format:check  # prettier --check
 
 ## Endpoints
 
-| Método | Ruta                      | Descripción                                                                                     |
-| ------ | ------------------------- | ----------------------------------------------------------------------------------------------- |
-| GET    | `/health`                 | Estado del servidor                                                                             |
-| GET    | `/health/database`        | Ping a MongoDB (503 si no responde)                                                             |
-| GET    | `/api/tasks`              | Lista las tareas                                                                                |
-| GET    | `/api/tasks/:id`          | Consulta una tarea                                                                              |
-| POST   | `/api/tasks`              | Crea una tarea (`{"title": "...", "description": "..."}`; la descripción es opcional, máx. 300) |
-| PATCH  | `/api/tasks/:id`          | Edita el título                                                                                 |
-| PATCH  | `/api/tasks/:id/complete` | Marca la tarea como completada                                                                  |
-| PATCH  | `/api/tasks/:id/status`   | Actualiza el estado (`{"completed": true}`)                                                     |
-| DELETE | `/api/tasks/:id`          | Elimina una tarea                                                                               |
+| Método | Ruta                      | Descripción                                                                                                                                              |
+| ------ | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| GET    | `/health`                 | Estado del servidor                                                                                                                                      |
+| GET    | `/health/database`        | Ping a MongoDB (503 si no responde)                                                                                                                      |
+| GET    | `/api/tasks`              | Lista las tareas                                                                                                                                         |
+| GET    | `/api/tasks/:id`          | Consulta una tarea                                                                                                                                       |
+| POST   | `/api/tasks`              | Crea una tarea (`{"title": "...", "description": "...", "priority": "high"}`; `description` y `priority` son opcionales)                                 |
+| PATCH  | `/api/tasks/:id`          | Actualización parcial: `title`, `status` (`pending` o `completed`), `priority` o varios a la vez. Rechaza cuerpos vacíos, arreglos y campos desconocidos |
+| PATCH  | `/api/tasks/:id/complete` | Marca la tarea como completada                                                                                                                           |
+| PATCH  | `/api/tasks/:id/status`   | Actualiza el estado (`{"completed": true}`)                                                                                                              |
+| DELETE | `/api/tasks/:id`          | Elimina una tarea                                                                                                                                        |
 
 Cada respuesta incluye el encabezado `X-Request-Id`. Los errores usan los códigos `INVALID_ID`, `INVALID_JSON`, `TASK_NOT_FOUND`, `ROUTE_NOT_FOUND`, `UNSUPPORTED_MEDIA_TYPE`, `VALIDATION_ERROR`, `PERSISTENCE_VALIDATION_ERROR`, `DATABASE_UNAVAILABLE` e `INTERNAL_ERROR`.
 
@@ -85,6 +85,7 @@ Colección `tasks` en la base `task_api`:
 | `title`       | obligatorio, `trim`, máximo 120 caracteres |
 | `description` | opcional, `trim`, máximo 300 caracteres    |
 | `status`      | `pending` (predeterminado) o `completed`   |
+| `priority`    | `low`, `medium` (predeterminado) o `high`  |
 | `createdAt`   | automático (`timestamps`)                  |
 | `updatedAt`   | automático (`timestamps`)                  |
 
@@ -95,6 +96,8 @@ Colección `tasks` en la base `task_api`:
 - `docs/pruebas-conexion-mongodb.md` y `docs/reflexion-mongodb.md` (A5)
 - `docs/pruebas-persistencia-mongodb.md` y `docs/reflexion-modelado-mongodb.md` (A6)
 - `postman/Task-API-EC2-F2-A6.postman_collection.json`: carpeta **EC2 F2 A6 Persistencia**
+- `docs/pruebas-crud-mongodb.md` y `docs/reflexion-crud-mongodb.md` (A7)
+- `postman/Task-API-EC2-F2-A7.postman_collection.json`: carpeta **EC2 F2 A7 CRUD**
 
 ## Seguridad
 

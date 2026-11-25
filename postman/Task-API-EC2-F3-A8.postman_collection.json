@@ -21,7 +21,14 @@
                   }
                 ],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks"
+                  "raw": "{{baseUrl}}/api/tasks",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ]
                 },
                 "body": {
                   "mode": "raw",
@@ -57,7 +64,14 @@
                   }
                 ],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks"
+                  "raw": "{{baseUrl}}/api/tasks",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ]
                 },
                 "body": {
                   "mode": "raw",
@@ -93,7 +107,14 @@
                   }
                 ],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks"
+                  "raw": "{{baseUrl}}/api/tasks",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ]
                 },
                 "body": {
                   "mode": "raw",
@@ -129,7 +150,14 @@
                   }
                 ],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks"
+                  "raw": "{{baseUrl}}/api/tasks",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ]
                 },
                 "body": {
                   "mode": "raw",
@@ -165,7 +193,14 @@
                   }
                 ],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks"
+                  "raw": "{{baseUrl}}/api/tasks",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ]
                 },
                 "body": {
                   "mode": "raw",
@@ -201,7 +236,15 @@
                   }
                 ],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId2}}"
+                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId2}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks",
+                    "{{queryTaskId2}}"
+                  ]
                 },
                 "body": {
                   "mode": "raw",
@@ -237,7 +280,15 @@
                   }
                 ],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId4}}"
+                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId4}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks",
+                    "{{queryTaskId4}}"
+                  ]
                 },
                 "body": {
                   "mode": "raw",
@@ -273,7 +324,14 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks"
+                  "raw": "{{baseUrl}}/api/tasks",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ]
                 }
               },
               "event": [
@@ -301,7 +359,24 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?page=1&limit=2"
+                  "raw": "{{baseUrl}}/api/tasks?page=1&limit=2",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "2"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -329,7 +404,24 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?page=2&limit=2"
+                  "raw": "{{baseUrl}}/api/tasks?page=2&limit=2",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "2"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "2"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -356,7 +448,24 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?page=9999&limit=2"
+                  "raw": "{{baseUrl}}/api/tasks?page=9999&limit=2",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "9999"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "2"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -383,7 +492,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?status=completed"
+                  "raw": "{{baseUrl}}/api/tasks?status=completed",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "completed"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -410,7 +532,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?status=pending"
+                  "raw": "{{baseUrl}}/api/tasks?status=pending",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "pending"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -437,7 +572,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?search=api"
+                  "raw": "{{baseUrl}}/api/tasks?search=api",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "api"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -464,7 +612,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?search=MONGODB"
+                  "raw": "{{baseUrl}}/api/tasks?search=MONGODB",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "MONGODB"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -491,7 +652,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?search=.*"
+                  "raw": "{{baseUrl}}/api/tasks?search=.*",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": ".*"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -518,7 +692,24 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?sortBy=title&order=asc"
+                  "raw": "{{baseUrl}}/api/tasks?sortBy=title&order=asc",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "sortBy",
+                      "value": "title"
+                    },
+                    {
+                      "key": "order",
+                      "value": "asc"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -545,7 +736,24 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?sortBy=title&order=desc"
+                  "raw": "{{baseUrl}}/api/tasks?sortBy=title&order=desc",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "sortBy",
+                      "value": "title"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -572,7 +780,24 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?sortBy=updatedAt&order=desc"
+                  "raw": "{{baseUrl}}/api/tasks?sortBy=updatedAt&order=desc",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "sortBy",
+                      "value": "updatedAt"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -599,7 +824,40 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?status=pending&search=entrega&page=1&limit=2&sortBy=title&order=asc"
+                  "raw": "{{baseUrl}}/api/tasks?status=pending&search=entrega&page=1&limit=2&sortBy=title&order=asc",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "pending"
+                    },
+                    {
+                      "key": "search",
+                      "value": "entrega"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "2"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "title"
+                    },
+                    {
+                      "key": "order",
+                      "value": "asc"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -631,7 +889,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?page=0"
+                  "raw": "{{baseUrl}}/api/tasks?page=0",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "0"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -656,7 +927,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?page=abc"
+                  "raw": "{{baseUrl}}/api/tasks?page=abc",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "abc"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -681,7 +965,24 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?page=1&page=2"
+                  "raw": "{{baseUrl}}/api/tasks?page=1&page=2",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page",
+                      "value": "2"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -706,7 +1007,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?limit=0"
+                  "raw": "{{baseUrl}}/api/tasks?limit=0",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "0"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -731,7 +1045,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?limit=51"
+                  "raw": "{{baseUrl}}/api/tasks?limit=51",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "limit",
+                      "value": "51"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -756,7 +1083,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?status=archived"
+                  "raw": "{{baseUrl}}/api/tasks?status=archived",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "status",
+                      "value": "archived"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -781,7 +1121,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?search="
+                  "raw": "{{baseUrl}}/api/tasks?search=",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": ""
+                    }
+                  ]
                 }
               },
               "event": [
@@ -806,7 +1159,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?search=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                  "raw": "{{baseUrl}}/api/tasks?search=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -831,7 +1197,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?sortBy=priority"
+                  "raw": "{{baseUrl}}/api/tasks?sortBy=priority",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "sortBy",
+                      "value": "priority"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -856,7 +1235,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?order=sideways"
+                  "raw": "{{baseUrl}}/api/tasks?order=sideways",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "order",
+                      "value": "sideways"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -881,7 +1273,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?owner=ana"
+                  "raw": "{{baseUrl}}/api/tasks?owner=ana",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "owner",
+                      "value": "ana"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -911,7 +1316,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?createdFrom={{queryTaskCreatedAt3}}"
+                  "raw": "{{baseUrl}}/api/tasks?createdFrom={{queryTaskCreatedAt3}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdFrom",
+                      "value": "{{queryTaskCreatedAt3}}"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -938,7 +1356,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?createdTo={{queryTaskCreatedAt2}}"
+                  "raw": "{{baseUrl}}/api/tasks?createdTo={{queryTaskCreatedAt2}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdTo",
+                      "value": "{{queryTaskCreatedAt2}}"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -965,7 +1396,24 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?createdFrom={{queryTaskCreatedAt2}}&createdTo={{queryTaskCreatedAt4}}"
+                  "raw": "{{baseUrl}}/api/tasks?createdFrom={{queryTaskCreatedAt2}}&createdTo={{queryTaskCreatedAt4}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdFrom",
+                      "value": "{{queryTaskCreatedAt2}}"
+                    },
+                    {
+                      "key": "createdTo",
+                      "value": "{{queryTaskCreatedAt4}}"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -992,7 +1440,48 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?createdFrom={{queryTaskCreatedAt1}}&createdTo={{queryTaskCreatedAt5}}&status=pending&search=a&sortBy=title&order=desc&page=1&limit=2"
+                  "raw": "{{baseUrl}}/api/tasks?createdFrom={{queryTaskCreatedAt1}}&createdTo={{queryTaskCreatedAt5}}&status=pending&search=a&sortBy=title&order=desc&page=1&limit=2",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdFrom",
+                      "value": "{{queryTaskCreatedAt1}}"
+                    },
+                    {
+                      "key": "createdTo",
+                      "value": "{{queryTaskCreatedAt5}}"
+                    },
+                    {
+                      "key": "status",
+                      "value": "pending"
+                    },
+                    {
+                      "key": "search",
+                      "value": "a"
+                    },
+                    {
+                      "key": "sortBy",
+                      "value": "title"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "limit",
+                      "value": "2"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -1019,7 +1508,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?createdFrom=ayer"
+                  "raw": "{{baseUrl}}/api/tasks?createdFrom=ayer",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdFrom",
+                      "value": "ayer"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -1044,7 +1546,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?createdTo=2026-13-01"
+                  "raw": "{{baseUrl}}/api/tasks?createdTo=2026-13-01",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdTo",
+                      "value": "2026-13-01"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -1069,7 +1584,20 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?createdFrom=2026-02-31"
+                  "raw": "{{baseUrl}}/api/tasks?createdFrom=2026-02-31",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdFrom",
+                      "value": "2026-02-31"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -1094,7 +1622,24 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks?createdFrom=2026-11-30&createdTo=2026-11-01"
+                  "raw": "{{baseUrl}}/api/tasks?createdFrom=2026-11-30&createdTo=2026-11-01",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ],
+                  "query": [
+                    {
+                      "key": "createdFrom",
+                      "value": "2026-11-30"
+                    },
+                    {
+                      "key": "createdTo",
+                      "value": "2026-11-01"
+                    }
+                  ]
                 }
               },
               "event": [
@@ -1124,7 +1669,13 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/health"
+                  "raw": "{{baseUrl}}/health",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "health"
+                  ]
                 }
               },
               "event": [
@@ -1145,7 +1696,14 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/health/database"
+                  "raw": "{{baseUrl}}/health/database",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "health",
+                    "database"
+                  ]
                 }
               },
               "event": [
@@ -1172,7 +1730,14 @@
                   }
                 ],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks"
+                  "raw": "{{baseUrl}}/api/tasks",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks"
+                  ]
                 },
                 "body": {
                   "mode": "raw",
@@ -1203,7 +1768,15 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{regTaskId}}"
+                  "raw": "{{baseUrl}}/api/tasks/{{regTaskId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks",
+                    "{{regTaskId}}"
+                  ]
                 }
               },
               "event": [
@@ -1229,7 +1802,15 @@
                   }
                 ],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{regTaskId}}"
+                  "raw": "{{baseUrl}}/api/tasks/{{regTaskId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks",
+                    "{{regTaskId}}"
+                  ]
                 },
                 "body": {
                   "mode": "raw",
@@ -1259,7 +1840,16 @@
                 "method": "PATCH",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{regTaskId}}/complete"
+                  "raw": "{{baseUrl}}/api/tasks/{{regTaskId}}/complete",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks",
+                    "{{regTaskId}}",
+                    "complete"
+                  ]
                 }
               },
               "event": [
@@ -1280,7 +1870,15 @@
                 "method": "DELETE",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{regTaskId}}"
+                  "raw": "{{baseUrl}}/api/tasks/{{regTaskId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks",
+                    "{{regTaskId}}"
+                  ]
                 }
               },
               "event": [
@@ -1302,7 +1900,15 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{regTaskId}}"
+                  "raw": "{{baseUrl}}/api/tasks/{{regTaskId}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks",
+                    "{{regTaskId}}"
+                  ]
                 }
               },
               "event": [
@@ -1324,7 +1930,15 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks/1"
+                  "raw": "{{baseUrl}}/api/tasks/1",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks",
+                    "1"
+                  ]
                 }
               },
               "event": [
@@ -1346,7 +1960,14 @@
                 "method": "GET",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/inexistente"
+                  "raw": "{{baseUrl}}/api/inexistente",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "inexistente"
+                  ]
                 }
               },
               "event": [
@@ -1373,7 +1994,15 @@
                 "method": "DELETE",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId1}}"
+                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId1}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks",
+                    "{{queryTaskId1}}"
+                  ]
                 }
               },
               "event": [
@@ -1394,7 +2023,15 @@
                 "method": "DELETE",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId2}}"
+                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId2}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks",
+                    "{{queryTaskId2}}"
+                  ]
                 }
               },
               "event": [
@@ -1415,7 +2052,15 @@
                 "method": "DELETE",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId3}}"
+                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId3}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks",
+                    "{{queryTaskId3}}"
+                  ]
                 }
               },
               "event": [
@@ -1436,7 +2081,15 @@
                 "method": "DELETE",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId4}}"
+                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId4}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks",
+                    "{{queryTaskId4}}"
+                  ]
                 }
               },
               "event": [
@@ -1457,7 +2110,15 @@
                 "method": "DELETE",
                 "header": [],
                 "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId5}}"
+                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId5}}",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "api",
+                    "tasks",
+                    "{{queryTaskId5}}"
+                  ]
                 }
               },
               "event": [

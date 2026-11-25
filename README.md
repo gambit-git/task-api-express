@@ -143,11 +143,11 @@ Colección `tasks` en la base `task_api`:
 
 - `docs/pruebas-conexion-mongodb.md` y `docs/reflexion-mongodb.md` (A5)
 - `docs/pruebas-persistencia-mongodb.md` y `docs/reflexion-modelado-mongodb.md` (A6)
-- `postman/Task-API-EC2-F2-A6.postman_collection.json`: carpeta **EC2 F2 A6 Persistencia**
+- `postman/postman_collections/Task-API-EC2-F2-A6.postman_collection.json`: carpeta **EC2 F2 A6 Persistencia**
 - `docs/pruebas-crud-mongodb.md` y `docs/reflexion-crud-mongodb.md` (A7)
-- `postman/Task-API-EC2-F2-A7.postman_collection.json`: carpeta **EC2 F2 A7 CRUD**
+- `postman/postman_collections/Task-API-EC2-F2-A7.postman_collection.json`: carpeta **EC2 F2 A7 CRUD**
 - `docs/pruebas-consultas-tareas.md` y `docs/reflexion-consultas-tareas.md` (A8)
-- `postman/Task-API-EC2-F3-A8.postman_collection.json`: carpeta **EC2 F3 A8 Consultas**
+- `postman/postman_collections/Task-API-EC2-F3-A8.postman_collection.json`: carpeta **EC2 F3 A8 Consultas**
 
 ## Seguridad
 

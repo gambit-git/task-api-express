@@ -18,7 +18,7 @@ Actividad EC2 F3 A8. No se incluyen la URI, el usuario, la contraseña, el host 
 
 ## Colección de Postman
 
-Importar `postman/Task-API-EC2-F3-A8.postman_collection.json`. Contiene la carpeta **EC2 F3 A8 Consultas** con las subcarpetas **Datos de prueba**, **Positivas**, **Negativas**, **Desafio fechas**, **Regresion CRUD** y **Limpieza**. Las solicitudes de datos guardan los ids y las fechas de creación en variables de colección y la limpieza elimina esas cinco tareas. Cada solicitud trae pruebas automáticas sobre `data`, `meta` y el código HTTP.
+Importar `postman/postman_collections/Task-API-EC2-F3-A8.postman_collection.json`. Contiene la carpeta **EC2 F3 A8 Consultas** con las subcarpetas **Datos de prueba**, **Positivas**, **Negativas**, **Desafio fechas**, **Regresion CRUD** y **Limpieza**. Las solicitudes de datos guardan los ids y las fechas de creación en variables de colección y la limpieza elimina esas cinco tareas. Cada solicitud trae pruebas automáticas sobre `data`, `meta` y el código HTTP.
 
 Las solicitudes de las tablas siguientes se ejecutaron con el script de Node, con los mismos métodos, rutas y parámetros que la colección. La colección se creó a partir de ellas y todavía no se ha corrido dentro de la aplicación Postman.
 

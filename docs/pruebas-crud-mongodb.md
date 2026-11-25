@@ -18,7 +18,7 @@ Actividad EC2 F2 A7. No se incluyen la URI, el usuario, la contraseña, el host 
 
 ## Colección de Postman
 
-Importar `postman/Task-API-EC2-F2-A7.postman_collection.json`. Contiene la carpeta **EC2 F2 A7 CRUD** con las subcarpetas **Positivas**, **Negativas** y **Desafio priority**. Define `baseUrl`, guarda el id devuelto por POST en `taskId` y cada solicitud trae pruebas automáticas del código HTTP.
+Importar `postman/postman_collections/Task-API-EC2-F2-A7.postman_collection.json`. Contiene la carpeta **EC2 F2 A7 CRUD** con las subcarpetas **Positivas**, **Negativas** y **Desafio priority**. Define `baseUrl`, guarda el id devuelto por POST en `taskId` y cada solicitud trae pruebas automáticas del código HTTP.
 
 Las solicitudes de las tablas siguientes se ejecutaron con `curl`, con los mismos métodos, rutas y cuerpos que la colección. La colección se creó a partir de ellas y todavía no se ha corrido dentro de la aplicación Postman.
 

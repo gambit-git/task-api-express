@@ -16,7 +16,7 @@ Actividad EC2 F2 A6. No se incluyen la URI, el usuario, la contraseña, el host 
 
 ## Colección de Postman
 
-Importar `postman/Task-API-EC2-F2-A6.postman_collection.json`. Contiene la carpeta **EC2 F2 A6 Persistencia**: guarda el id en la variable `taskId` y lo usa mediante `{{taskId}}`. Cada solicitud tiene pruebas automáticas del código HTTP.
+Importar `postman/postman_collections/Task-API-EC2-F2-A6.postman_collection.json`. Contiene la carpeta **EC2 F2 A6 Persistencia**: guarda el id en la variable `taskId` y lo usa mediante `{{taskId}}`. Cada solicitud tiene pruebas automáticas del código HTTP.
 
 ## Tabla de pruebas
 

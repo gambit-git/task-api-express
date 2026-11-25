@@ -36,7 +36,7 @@ Tareas de prueba: Aprender Express, Documentar MongoDB (completed), Practicar b�
 
 ## Resultados
 
-Total de casos ejecutados: 78. Aprobados: 78. Fallidos: 0.
+Total de casos listados: 77 (76 ejecutados contra Atlas y 1 simulada con mock). Aprobados: 77. Fallidos: 0.
 
 Cada fila de listado se comparó contra el resultado esperado calculado localmente: mismos documentos, mismo orden y mismo `meta` (`page`, `limit`, `total`, `totalPages`, `hasNextPage`, `hasPreviousPage`), además de la ausencia de `_id` y `__v`. En los casos negativos se comprobó 422, `QUERY_VALIDATION_ERROR`, el campo en `details` y la presencia de `requestId`. El `requestId` de la tabla es el encabezado `X-Request-Id` de cada respuesta.
 
@@ -46,7 +46,7 @@ Cada fila de listado se comparó contra el resultado esperado calculado localmen
 | --- | ----- | ------------------------------------------------------ | ----------: | -------: | -------------------------------------- | --------- |
 | 1   | Datos | `PATCH /api/tasks/:id Documentar MongoDB -> completed` |         200 |      200 | `22bddeae-d704-4e15-958c-db4283147835` | Aprobada  |
 | 2   | Datos | `PATCH /api/tasks/:id Revisar API -> completed`        |         200 |      200 | `612c6e8b-5728-4b87-abdf-97def334e178` | Aprobada  |
-| 3   | Datos | `Conjunto preparado (total, pending, completed)`       | 12 / 10 / 2 |      200 | —                                      | Aprobada  |
+| 3   | Datos | `Conjunto preparado (total, pending, completed)`       | 12 / 10 / 2 | 12 / 10 / 2 | —                                      | Aprobada  |
 
 ### Casos positivos (salud, paginación, filtro, búsqueda, orden y combinación)
 
@@ -149,7 +149,7 @@ Cada fila de listado se comparó contra el resultado esperado calculado localmen
 | 73  | Limpieza | `DELETE 197bfe`                |      204 |      204 | `ce3f54c7-c593-4d1e-9e16-c116f84311f5` | Aprobada  |
 | 74  | Limpieza | `DELETE 197c00`                |      204 |      204 | `15eeb70b-7983-4474-93ba-8be5e989987f` | Aprobada  |
 | 75  | Limpieza | `DELETE 197c02`                |      204 |      204 | `b1116dca-c64b-4810-a9dd-067ef9329783` | Aprobada  |
-| 76  | Limpieza | `total final igual al inicial` |        7 |      200 | —                                      | Aprobada  |
+| 76  | Limpieza | `total final igual al inicial` |        7 |        7 | —                                      | Aprobada  |
 
 ### Falla de almacenamiento (503)
 

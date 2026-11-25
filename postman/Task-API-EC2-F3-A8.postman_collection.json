@@ -20,16 +20,7 @@
                     "value": "application/json"
                   }
                 ],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ]
-                },
+                "url": "{{baseUrl}}/api/tasks",
                 "body": {
                   "mode": "raw",
                   "raw": "{\"title\":\"Aprender Express\"}",
@@ -63,16 +54,7 @@
                     "value": "application/json"
                   }
                 ],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ]
-                },
+                "url": "{{baseUrl}}/api/tasks",
                 "body": {
                   "mode": "raw",
                   "raw": "{\"title\":\"Documentar MongoDB\"}",
@@ -106,16 +88,7 @@
                     "value": "application/json"
                   }
                 ],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ]
-                },
+                "url": "{{baseUrl}}/api/tasks",
                 "body": {
                   "mode": "raw",
                   "raw": "{\"title\":\"Practicar búsqueda\"}",
@@ -149,16 +122,7 @@
                     "value": "application/json"
                   }
                 ],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ]
-                },
+                "url": "{{baseUrl}}/api/tasks",
                 "body": {
                   "mode": "raw",
                   "raw": "{\"title\":\"Revisar API\"}",
@@ -192,16 +156,7 @@
                     "value": "application/json"
                   }
                 ],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ]
-                },
+                "url": "{{baseUrl}}/api/tasks",
                 "body": {
                   "mode": "raw",
                   "raw": "{\"title\":\"Preparar entrega\"}",
@@ -235,17 +190,7 @@
                     "value": "application/json"
                   }
                 ],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId2}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks",
-                    "{{queryTaskId2}}"
-                  ]
-                },
+                "url": "{{baseUrl}}/api/tasks/{{queryTaskId2}}",
                 "body": {
                   "mode": "raw",
                   "raw": "{\"status\":\"completed\"}",
@@ -279,17 +224,7 @@
                     "value": "application/json"
                   }
                 ],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId4}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks",
-                    "{{queryTaskId4}}"
-                  ]
-                },
+                "url": "{{baseUrl}}/api/tasks/{{queryTaskId4}}",
                 "body": {
                   "mode": "raw",
                   "raw": "{\"status\":\"completed\"}",
@@ -323,16 +258,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks"
               },
               "event": [
                 {
@@ -358,26 +284,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?page=1&limit=2",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "page",
-                      "value": "1"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "2"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?page=1&limit=2"
               },
               "event": [
                 {
@@ -403,26 +310,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?page=2&limit=2",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "page",
-                      "value": "2"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "2"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?page=2&limit=2"
               },
               "event": [
                 {
@@ -447,26 +335,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?page=9999&limit=2",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "page",
-                      "value": "9999"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "2"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?page=9999&limit=2"
               },
               "event": [
                 {
@@ -491,22 +360,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?status=completed",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "status",
-                      "value": "completed"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?status=completed"
               },
               "event": [
                 {
@@ -531,22 +385,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?status=pending",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "status",
-                      "value": "pending"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?status=pending"
               },
               "event": [
                 {
@@ -571,22 +410,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?search=api",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "search",
-                      "value": "api"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?search=api"
               },
               "event": [
                 {
@@ -611,22 +435,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?search=MONGODB",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "search",
-                      "value": "MONGODB"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?search=MONGODB"
               },
               "event": [
                 {
@@ -651,22 +460,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?search=.*",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "search",
-                      "value": ".*"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?search=.*"
               },
               "event": [
                 {
@@ -691,26 +485,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?sortBy=title&order=asc",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "sortBy",
-                      "value": "title"
-                    },
-                    {
-                      "key": "order",
-                      "value": "asc"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?sortBy=title&order=asc"
               },
               "event": [
                 {
@@ -735,26 +510,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?sortBy=title&order=desc",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "sortBy",
-                      "value": "title"
-                    },
-                    {
-                      "key": "order",
-                      "value": "desc"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?sortBy=title&order=desc"
               },
               "event": [
                 {
@@ -779,26 +535,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?sortBy=updatedAt&order=desc",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "sortBy",
-                      "value": "updatedAt"
-                    },
-                    {
-                      "key": "order",
-                      "value": "desc"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?sortBy=updatedAt&order=desc"
               },
               "event": [
                 {
@@ -823,42 +560,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?status=pending&search=entrega&page=1&limit=2&sortBy=title&order=asc",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "status",
-                      "value": "pending"
-                    },
-                    {
-                      "key": "search",
-                      "value": "entrega"
-                    },
-                    {
-                      "key": "page",
-                      "value": "1"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "2"
-                    },
-                    {
-                      "key": "sortBy",
-                      "value": "title"
-                    },
-                    {
-                      "key": "order",
-                      "value": "asc"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?status=pending&search=entrega&page=1&limit=2&sortBy=title&order=asc"
               },
               "event": [
                 {
@@ -888,22 +590,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?page=0",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "page",
-                      "value": "0"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?page=0"
               },
               "event": [
                 {
@@ -926,22 +613,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?page=abc",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "page",
-                      "value": "abc"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?page=abc"
               },
               "event": [
                 {
@@ -964,26 +636,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?page=1&page=2",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "page",
-                      "value": "1"
-                    },
-                    {
-                      "key": "page",
-                      "value": "2"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?page=1&page=2"
               },
               "event": [
                 {
@@ -1006,22 +659,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?limit=0",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "limit",
-                      "value": "0"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?limit=0"
               },
               "event": [
                 {
@@ -1044,22 +682,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?limit=51",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "limit",
-                      "value": "51"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?limit=51"
               },
               "event": [
                 {
@@ -1082,22 +705,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?status=archived",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "status",
-                      "value": "archived"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?status=archived"
               },
               "event": [
                 {
@@ -1120,22 +728,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?search=",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "search",
-                      "value": ""
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?search="
               },
               "event": [
                 {
@@ -1158,22 +751,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?search=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "search",
-                      "value": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?search=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
               },
               "event": [
                 {
@@ -1196,22 +774,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?sortBy=priority",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "sortBy",
-                      "value": "priority"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?sortBy=priority"
               },
               "event": [
                 {
@@ -1234,22 +797,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?order=sideways",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "order",
-                      "value": "sideways"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?order=sideways"
               },
               "event": [
                 {
@@ -1272,22 +820,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?owner=ana",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "owner",
-                      "value": "ana"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?owner=ana"
               },
               "event": [
                 {
@@ -1315,22 +848,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?createdFrom={{queryTaskCreatedAt3}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "createdFrom",
-                      "value": "{{queryTaskCreatedAt3}}"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?createdFrom={{queryTaskCreatedAt3}}"
               },
               "event": [
                 {
@@ -1355,22 +873,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?createdTo={{queryTaskCreatedAt2}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "createdTo",
-                      "value": "{{queryTaskCreatedAt2}}"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?createdTo={{queryTaskCreatedAt2}}"
               },
               "event": [
                 {
@@ -1395,26 +898,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?createdFrom={{queryTaskCreatedAt2}}&createdTo={{queryTaskCreatedAt4}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "createdFrom",
-                      "value": "{{queryTaskCreatedAt2}}"
-                    },
-                    {
-                      "key": "createdTo",
-                      "value": "{{queryTaskCreatedAt4}}"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?createdFrom={{queryTaskCreatedAt2}}&createdTo={{queryTaskCreatedAt4}}"
               },
               "event": [
                 {
@@ -1439,50 +923,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?createdFrom={{queryTaskCreatedAt1}}&createdTo={{queryTaskCreatedAt5}}&status=pending&search=a&sortBy=title&order=desc&page=1&limit=2",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "createdFrom",
-                      "value": "{{queryTaskCreatedAt1}}"
-                    },
-                    {
-                      "key": "createdTo",
-                      "value": "{{queryTaskCreatedAt5}}"
-                    },
-                    {
-                      "key": "status",
-                      "value": "pending"
-                    },
-                    {
-                      "key": "search",
-                      "value": "a"
-                    },
-                    {
-                      "key": "sortBy",
-                      "value": "title"
-                    },
-                    {
-                      "key": "order",
-                      "value": "desc"
-                    },
-                    {
-                      "key": "page",
-                      "value": "1"
-                    },
-                    {
-                      "key": "limit",
-                      "value": "2"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?createdFrom={{queryTaskCreatedAt1}}&createdTo={{queryTaskCreatedAt5}}&status=pending&search=a&sortBy=title&order=desc&page=1&limit=2"
               },
               "event": [
                 {
@@ -1507,22 +948,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?createdFrom=ayer",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "createdFrom",
-                      "value": "ayer"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?createdFrom=ayer"
               },
               "event": [
                 {
@@ -1545,22 +971,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?createdTo=2026-13-01",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "createdTo",
-                      "value": "2026-13-01"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?createdTo=2026-13-01"
               },
               "event": [
                 {
@@ -1583,22 +994,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?createdFrom=2026-02-31",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "createdFrom",
-                      "value": "2026-02-31"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?createdFrom=2026-02-31"
               },
               "event": [
                 {
@@ -1621,26 +1017,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks?createdFrom=2026-11-30&createdTo=2026-11-01",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ],
-                  "query": [
-                    {
-                      "key": "createdFrom",
-                      "value": "2026-11-30"
-                    },
-                    {
-                      "key": "createdTo",
-                      "value": "2026-11-01"
-                    }
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks?createdFrom=2026-11-30&createdTo=2026-11-01"
               },
               "event": [
                 {
@@ -1668,15 +1045,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/health",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "health"
-                  ]
-                }
+                "url": "{{baseUrl}}/health"
               },
               "event": [
                 {
@@ -1695,16 +1064,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/health/database",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "health",
-                    "database"
-                  ]
-                }
+                "url": "{{baseUrl}}/health/database"
               },
               "event": [
                 {
@@ -1729,16 +1089,7 @@
                     "value": "application/json"
                   }
                 ],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks"
-                  ]
-                },
+                "url": "{{baseUrl}}/api/tasks",
                 "body": {
                   "mode": "raw",
                   "raw": "{\"title\":\"A8 regresión\"}",
@@ -1767,17 +1118,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{regTaskId}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks",
-                    "{{regTaskId}}"
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks/{{regTaskId}}"
               },
               "event": [
                 {
@@ -1801,17 +1142,7 @@
                     "value": "application/json"
                   }
                 ],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{regTaskId}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks",
-                    "{{regTaskId}}"
-                  ]
-                },
+                "url": "{{baseUrl}}/api/tasks/{{regTaskId}}",
                 "body": {
                   "mode": "raw",
                   "raw": "{\"title\":\"A8 regresión editada\"}",
@@ -1839,18 +1170,7 @@
               "request": {
                 "method": "PATCH",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{regTaskId}}/complete",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks",
-                    "{{regTaskId}}",
-                    "complete"
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks/{{regTaskId}}/complete"
               },
               "event": [
                 {
@@ -1869,17 +1189,7 @@
               "request": {
                 "method": "DELETE",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{regTaskId}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks",
-                    "{{regTaskId}}"
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks/{{regTaskId}}"
               },
               "event": [
                 {
@@ -1899,17 +1209,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{regTaskId}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks",
-                    "{{regTaskId}}"
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks/{{regTaskId}}"
               },
               "event": [
                 {
@@ -1929,17 +1229,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks/1",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks",
-                    "1"
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks/1"
               },
               "event": [
                 {
@@ -1959,16 +1249,7 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/inexistente",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "inexistente"
-                  ]
-                }
+                "url": "{{baseUrl}}/api/inexistente"
               },
               "event": [
                 {
@@ -1993,17 +1274,7 @@
               "request": {
                 "method": "DELETE",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId1}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks",
-                    "{{queryTaskId1}}"
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks/{{queryTaskId1}}"
               },
               "event": [
                 {
@@ -2022,17 +1293,7 @@
               "request": {
                 "method": "DELETE",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId2}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks",
-                    "{{queryTaskId2}}"
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks/{{queryTaskId2}}"
               },
               "event": [
                 {
@@ -2051,17 +1312,7 @@
               "request": {
                 "method": "DELETE",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId3}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks",
-                    "{{queryTaskId3}}"
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks/{{queryTaskId3}}"
               },
               "event": [
                 {
@@ -2080,17 +1331,7 @@
               "request": {
                 "method": "DELETE",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId4}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks",
-                    "{{queryTaskId4}}"
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks/{{queryTaskId4}}"
               },
               "event": [
                 {
@@ -2109,17 +1350,7 @@
               "request": {
                 "method": "DELETE",
                 "header": [],
-                "url": {
-                  "raw": "{{baseUrl}}/api/tasks/{{queryTaskId5}}",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "api",
-                    "tasks",
-                    "{{queryTaskId5}}"
-                  ]
-                }
+                "url": "{{baseUrl}}/api/tasks/{{queryTaskId5}}"
               },
               "event": [
                 {

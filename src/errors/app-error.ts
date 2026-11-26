@@ -10,7 +10,11 @@ export type ErrorCode =
   | "QUERY_VALIDATION_ERROR"
   | "PERSISTENCE_VALIDATION_ERROR"
   | "DATABASE_UNAVAILABLE"
-  | "INTERNAL_ERROR";
+  | "INTERNAL_ERROR"
+  | "AUTH_VALIDATION_ERROR"
+  | "USER_EMAIL_EXISTS"
+  | "INVALID_CREDENTIALS"
+  | "INVALID_TOKEN";
 
 export class AppError extends Error {
   constructor(

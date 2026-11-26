@@ -1,0 +1,14 @@
+$kind: http-request
+url: "http://localhost:3000/health/database"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      const id = Date.now().toString(36);
+      pm.collectionVariables.set('email', 'ana.torres.' + id + '@example.com');
+      pm.collectionVariables.set('emailMixed', 'ANA.Torres.' + id + '@Example.com');
+      pm.collectionVariables.set('password', 'Frase de prueba ' + id + ' ' + Math.random().toString(36).slice(2, 8));
+      pm.collectionVariables.set('longPassword', 'a'.repeat(73));
+      pm.test('Responde 200', () => pm.response.to.have.status(200));
+    language: text/javascript
+order: 1000

@@ -1,0 +1,15 @@
+$kind: http-request
+url: "http://localhost:3000/api/tasks/{{taskId}}"
+method: PATCH
+body:
+  type: json
+  content: "{\n  \"title\": \"Probar A9 editada\"\n}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Título actualizado', () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().data.title).to.eql('Probar A9 editada');
+      });
+    language: text/javascript
+order: 16000

@@ -1,6 +1,6 @@
 # Task API Express
 
-API REST de gestión de tareas construida con Node.js, TypeScript y Express 5. Las tareas se guardan en MongoDB Atlas mediante Mongoose y permanecen disponibles después de reiniciar la API.
+API REST de gestión de tareas construida con Node.js, TypeScript y Express 5. Las tareas se guardan en MongoDB Atlas mediante Mongoose y permanecen disponibles después de reiniciar la API. Incluye registro de usuarios con contraseñas protegidas e inicio de sesión con tokens JWT.
 
 ## Requisitos
 
@@ -22,11 +22,21 @@ Edita `.env` con tus valores reales. Nunca subas `.env` a Git.
 
 ## Variables de entorno
 
-| Variable          | Descripción                             |
-| ----------------- | --------------------------------------- |
-| `PORT`            | Puerto del servidor (por defecto 3000)  |
-| `MONGODB_URI`     | Cadena de conexión de Atlas (secreto)   |
-| `MONGODB_DB_NAME` | Nombre de la base de datos (`task_api`) |
+| Variable          | Descripción                                                             |
+| ----------------- | ----------------------------------------------------------------------- |
+| `PORT`            | Puerto del servidor (por defecto 3000)                                  |
+| `MONGODB_URI`     | Cadena de conexión de Atlas (secreto)                                   |
+| `MONGODB_DB_NAME` | Nombre de la base de datos (`task_api`)                                 |
+| `JWT_SECRET`      | Clave para firmar los tokens, de al menos 32 bytes aleatorios (secreto) |
+| `JWT_EXPIRES_IN`  | Duración del token, por ejemplo `15m`, `1h` o `7d` (por defecto `1h`)   |
+| `JWT_ISSUER`      | Emisor del token (por defecto `task-api-express`)                       |
+| `JWT_AUDIENCE`    | Audiencia del token (por defecto `task-api-client`)                     |
+
+Para generar la clave:
+
+```bash
+node --input-type=module -e "import { randomBytes } from 'node:crypto'; console.log(randomBytes(32).toString('hex'))"
+```
 
 ## Comandos
 
@@ -47,6 +57,8 @@ pnpm format:check  # prettier --check
 | ------ | ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | GET    | `/health`                 | Estado del servidor                                                                                                                                      |
 | GET    | `/health/database`        | Ping a MongoDB (503 si no responde)                                                                                                                      |
+| POST   | `/api/auth/register`      | Registra un usuario (ver [Autenticación](#autenticación)); responde 201                                                                                  |
+| POST   | `/api/auth/login`         | Inicia sesión y entrega un token JWT; responde 200                                                                                                       |
 | GET    | `/api/tasks`              | Lista paginada con filtro, búsqueda y orden (ver [Consulta del listado](#consulta-del-listado)); responde `{ "data": [...], "meta": {...} }`             |
 | GET    | `/api/tasks/:id`          | Consulta una tarea                                                                                                                                       |
 | POST   | `/api/tasks`              | Crea una tarea (`{"title": "...", "description": "...", "priority": "high"}`; `description` y `priority` son opcionales)                                 |
@@ -55,7 +67,42 @@ pnpm format:check  # prettier --check
 | PATCH  | `/api/tasks/:id/status`   | Actualiza el estado (`{"completed": true}`)                                                                                                              |
 | DELETE | `/api/tasks/:id`          | Elimina una tarea                                                                                                                                        |
 
-Cada respuesta incluye el encabezado `X-Request-Id`. Los errores usan los códigos `INVALID_ID`, `INVALID_JSON`, `TASK_NOT_FOUND`, `ROUTE_NOT_FOUND`, `UNSUPPORTED_MEDIA_TYPE`, `VALIDATION_ERROR`, `QUERY_VALIDATION_ERROR`, `PERSISTENCE_VALIDATION_ERROR`, `DATABASE_UNAVAILABLE` e `INTERNAL_ERROR`.
+Cada respuesta incluye el encabezado `X-Request-Id`. Los errores usan los códigos `INVALID_ID`, `INVALID_JSON`, `TASK_NOT_FOUND`, `ROUTE_NOT_FOUND`, `UNSUPPORTED_MEDIA_TYPE`, `VALIDATION_ERROR`, `QUERY_VALIDATION_ERROR`, `PERSISTENCE_VALIDATION_ERROR`, `DATABASE_UNAVAILABLE`, `AUTH_VALIDATION_ERROR`, `USER_EMAIL_EXISTS`, `INVALID_CREDENTIALS`, `INVALID_TOKEN`, `PAYLOAD_TOO_LARGE` e `INTERNAL_ERROR`.
+
+## Autenticación
+
+`POST /api/auth/register` acepta solo `name` (2 a 80 caracteres), `email`, `password` (mínimo 15 caracteres y máximo 72 bytes) y `confirmPassword` (igual a `password`). El correo se guarda en minúsculas y el rol siempre es `user`.
+
+```json
+{
+  "name": "Ana Torres",
+  "email": "ana.torres@example.com",
+  "password": "<CONTRASEÑA>",
+  "confirmPassword": "<CONTRASEÑA>"
+}
+```
+
+`POST /api/auth/login` acepta solo `email` y `password`. Un correo inexistente y una contraseña incorrecta responden el mismo `401 INVALID_CREDENTIALS`.
+
+```json
+{
+  "data": {
+    "user": {
+      "id": "<OBJECT_ID>",
+      "name": "Ana Torres",
+      "email": "ana.torres@example.com",
+      "role": "user",
+      "createdAt": "<FECHA_ISO>",
+      "updatedAt": "<FECHA_ISO>"
+    },
+    "accessToken": "<TOKEN>",
+    "tokenType": "Bearer",
+    "expiresIn": "1h"
+  }
+}
+```
+
+El token se firma con HS256 e incluye `sub`, `role`, `iss`, `aud`, `iat` y `exp`. Las rutas de tareas todavía son públicas; su protección corresponde a la actividad A10.
 
 ## Consulta del listado
 
@@ -111,11 +158,11 @@ src/
   controllers/   traducen HTTP a llamadas al servicio
   errors/        AppError
   middlewares/   request id, validaciones (incluida la consulta del listado), notFound y errorHandler
-  models/        modelo de Mongoose y tipos (Task, TaskPersistence, TaskUpdate)
-  repositories/  único acceso a Mongoose: filtros, orden, paginación y operaciones CRUD
-  routes/        rutas de tareas y de salud
-  services/      reglas de negocio y respuesta pública (meta de paginación)
-  types/         contratos tipados (errores y consulta del listado)
+  models/        modelos de Mongoose y tipos de tareas y usuarios
+  repositories/  único acceso a Mongoose: tareas (filtros, orden, paginación, CRUD) y usuarios
+  routes/        rutas de tareas, autenticación y salud
+  services/      reglas de negocio, contraseñas, tokens y respuesta pública
+  types/         contratos tipados (errores, consulta del listado y autenticación)
   utils/         utilidades
   app.ts         configura Express
   server.ts      conecta a la base de datos y abre el puerto
@@ -139,6 +186,17 @@ Colección `tasks` en la base `task_api`:
 
 `versionKey` está desactivado. La API devuelve `id` (string) en lugar de `_id` y nunca expone `__v`. Un id que no sea un ObjectId de 24 caracteres hexadecimales produce `400 INVALID_ID`.
 
+Colección `users`:
+
+| Campo          | Regla                                                        |
+| -------------- | ------------------------------------------------------------ |
+| `name`         | obligatorio, `trim`, de 2 a 80 caracteres                    |
+| `email`        | obligatorio, único, en minúsculas, máximo 254 caracteres     |
+| `passwordHash` | hash bcrypt de 12 rondas; `select: false`, nunca se responde |
+| `role`         | `user` (predeterminado) o `admin`                            |
+| `createdAt`    | automático (`timestamps`)                                    |
+| `updatedAt`    | automático (`timestamps`)                                    |
+
 ## Documentación de las actividades
 
 - `docs/pruebas-conexion-mongodb.md` y `docs/reflexion-mongodb.md` (A5)
@@ -148,10 +206,15 @@ Colección `tasks` en la base `task_api`:
 - `postman/postman_collections/Task-API-EC2-F2-A7.postman_collection.json`: carpeta **EC2 F2 A7 CRUD**
 - `docs/pruebas-consultas-tareas.md` y `docs/reflexion-consultas-tareas.md` (A8)
 - `postman/postman_collections/Task-API-EC2-F3-A8.postman_collection.json`: carpeta **EC2 F3 A8 Consultas**
+- `docs/evidencias-ec3-f1-a9.md` y `docs/reflexion-ec3-f1-a9.md` (A9)
+- `postman/postman_collections/Task-API-EC3-F1-A9.postman_collection.json`: autenticación y regresión de tareas
 
 ## Seguridad
 
 - `.env` está en `.gitignore`; `.env.example` no contiene secretos.
+- Las contraseñas se guardan solo como hash bcrypt; no se registran en consola ni se devuelven.
+- El registro rechaza `role` y cualquier campo no permitido.
+- El cuerpo JSON se limita a 20 kb y se desactiva el encabezado `X-Powered-By`.
 - Los errores inesperados no exponen stack, URI ni detalles internos al cliente.
 - Si la conexión con MongoDB falla al arrancar, la API muestra un mensaje seguro (sin URI ni contraseña) y no abre el puerto.
 - En Atlas, el usuario de base de datos tiene `readWrite` solo sobre `task_api` y la lista de acceso contiene únicamente la IP necesaria (no `0.0.0.0/0`).

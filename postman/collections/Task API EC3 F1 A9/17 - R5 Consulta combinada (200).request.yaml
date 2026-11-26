@@ -1,0 +1,17 @@
+$kind: http-request
+url: "http://localhost:3000/api/tasks?status=completed&search=A9&sortBy=title&order=asc"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Solo completadas que contienen A9', () => {
+        pm.response.to.have.status(200);
+        const data = pm.response.json().data;
+        pm.expect(data.length).to.be.above(0);
+        data.forEach((task) => {
+          pm.expect(task.status).to.eql('completed');
+          pm.expect(task.title.toLowerCase()).to.include('a9');
+        });
+      });
+    language: text/javascript
+order: 18000

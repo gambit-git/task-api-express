@@ -1,0 +1,12 @@
+$kind: http-request
+url: "http://localhost:3000/api/tasks?page=1&limit=5"
+method: GET
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Responde 200 con meta', () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().meta.limit).to.eql(5);
+      });
+    language: text/javascript
+order: 15000

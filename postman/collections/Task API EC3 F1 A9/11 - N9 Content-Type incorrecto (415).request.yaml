@@ -1,0 +1,15 @@
+$kind: http-request
+url: "http://localhost:3000/api/auth/login"
+method: POST
+body:
+  type: text
+  content: "texto plano"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('415 UNSUPPORTED_MEDIA_TYPE', () => {
+        pm.response.to.have.status(415);
+        pm.expect(pm.response.json().error.code).to.eql('UNSUPPORTED_MEDIA_TYPE');
+      });
+    language: text/javascript
+order: 12000

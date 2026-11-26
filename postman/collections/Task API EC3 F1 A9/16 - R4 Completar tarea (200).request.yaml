@@ -1,0 +1,12 @@
+$kind: http-request
+url: "http://localhost:3000/api/tasks/{{taskId}}/complete"
+method: PATCH
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Estado completed', () => {
+        pm.response.to.have.status(200);
+        pm.expect(pm.response.json().data.status).to.eql('completed');
+      });
+    language: text/javascript
+order: 17000

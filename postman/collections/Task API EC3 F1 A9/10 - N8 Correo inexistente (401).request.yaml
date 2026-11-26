@@ -1,0 +1,18 @@
+$kind: http-request
+url: "http://localhost:3000/api/auth/login"
+method: POST
+body:
+  type: json
+  content: "{\n  \"email\": \"nadie.{{email}}\",\n  \"password\": \"{{password}}\"\n}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('401 INVALID_CREDENTIALS', () => {
+        pm.response.to.have.status(401);
+        pm.expect(pm.response.json().error.code).to.eql('INVALID_CREDENTIALS');
+      });
+      pm.test('Mismo mensaje que N7', () => {
+        pm.expect(pm.response.json().error.message).to.eql(pm.collectionVariables.get('loginMessage'));
+      });
+    language: text/javascript
+order: 11000

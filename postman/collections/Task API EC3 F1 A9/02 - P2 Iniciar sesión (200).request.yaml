@@ -1,0 +1,23 @@
+$kind: http-request
+url: "http://localhost:3000/api/auth/login"
+method: POST
+body:
+  type: json
+  content: "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}"
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Responde 200', () => pm.response.to.have.status(200));
+      pm.test('Entrega token Bearer con expiración', () => {
+        const data = pm.response.json().data;
+        pm.expect(data.accessToken.split('.')).to.have.lengthOf(3);
+        pm.expect(data.tokenType).to.eql('Bearer');
+        pm.expect(data.expiresIn).to.be.a('string');
+      });
+      pm.test('No expone contraseña ni hash', () => {
+        const text = pm.response.text();
+        pm.expect(text).to.not.include('passwordHash');
+        pm.expect(text).to.not.include(pm.collectionVariables.get('password'));
+      });
+    language: text/javascript
+order: 3000

@@ -1,0 +1,12 @@
+$kind: http-request
+url: "http://localhost:3000/api/tasks/{{taskId}}"
+method: DELETE
+scripts:
+  - type: afterResponse
+    code: |-
+      pm.test('Responde 204 sin cuerpo', () => {
+        pm.response.to.have.status(204);
+        pm.expect(pm.response.text()).to.eql('');
+      });
+    language: text/javascript
+order: 19000

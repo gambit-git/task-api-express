@@ -1,0 +1,601 @@
+{
+  "info": {
+    "name": "Task API EC3 F1 A9",
+    "description": "Ejecuta las carpetas en orden. P1 crea un usuario de prueba nuevo en cada ejecución.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "email", "value": "" },
+    { "key": "emailMixed", "value": "" },
+    { "key": "password", "value": "" },
+    { "key": "longPassword", "value": "" },
+    { "key": "loginMessage", "value": "" },
+    { "key": "taskId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "A. Salud y casos correctos",
+      "item": [
+        {
+          "name": "00 Salud de la base de datos (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', () => pm.response.to.have.status(200));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/health/database"
+          }
+        },
+        {
+          "name": "P1 Registrar usuario (201)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const id = Date.now().toString(36);",
+                  "pm.collectionVariables.set('email', 'ana.torres.' + id + '@example.com');",
+                  "pm.collectionVariables.set('emailMixed', 'ANA.Torres.' + id + '@Example.com');",
+                  "pm.collectionVariables.set('password', 'Frase de prueba ' + id + ' ' + Math.random().toString(36).slice(2, 8));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 201', () => pm.response.to.have.status(201));",
+                  "pm.test('Correo en minúsculas y rol user', () => {",
+                  "  const user = pm.response.json().data.user;",
+                  "  pm.expect(user.email).to.eql(pm.collectionVariables.get('email'));",
+                  "  pm.expect(user.role).to.eql('user');",
+                  "});",
+                  "pm.test('No expone contraseña ni hash', () => {",
+                  "  const text = pm.response.text();",
+                  "  pm.expect(text).to.not.include('passwordHash');",
+                  "  pm.expect(text).to.not.include('confirmPassword');",
+                  "  pm.expect(text).to.not.include(pm.collectionVariables.get('password'));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ana Torres\",\n  \"email\": \"{{emailMixed}}\",\n  \"password\": \"{{password}}\",\n  \"confirmPassword\": \"{{password}}\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "P2 Iniciar sesión (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200', () => pm.response.to.have.status(200));",
+                  "pm.test('Entrega token Bearer con expiración', () => {",
+                  "  const data = pm.response.json().data;",
+                  "  pm.expect(data.accessToken.split('.')).to.have.lengthOf(3);",
+                  "  pm.expect(data.tokenType).to.eql('Bearer');",
+                  "  pm.expect(data.expiresIn).to.be.a('string');",
+                  "});",
+                  "pm.test('No expone contraseña ni hash', () => {",
+                  "  const text = pm.response.text();",
+                  "  pm.expect(text).to.not.include('passwordHash');",
+                  "  pm.expect(text).to.not.include(pm.collectionVariables.get('password'));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "B. Errores de registro",
+      "item": [
+        {
+          "name": "N1 Correo repetido (409)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('409 USER_EMAIL_EXISTS', () => {",
+                  "  pm.response.to.have.status(409);",
+                  "  pm.expect(pm.response.json().error.code).to.eql('USER_EMAIL_EXISTS');",
+                  "  pm.expect(pm.response.json().error.requestId).to.be.a('string');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ana Torres\",\n  \"email\": \"{{emailMixed}}\",\n  \"password\": \"{{password}}\",\n  \"confirmPassword\": \"{{password}}\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "N2 Contraseña corta (422)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('422 en password', () => {",
+                  "  pm.response.to.have.status(422);",
+                  "  const error = pm.response.json().error;",
+                  "  pm.expect(error.code).to.eql('AUTH_VALIDATION_ERROR');",
+                  "  pm.expect(error.details.map((item) => item.field)).to.include('password');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ana Torres\",\n  \"email\": \"{{emailMixed}}\",\n  \"password\": \"corta\",\n  \"confirmPassword\": \"corta\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "N3 Contraseña de más de 72 bytes (422)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.collectionVariables.set('longPassword', 'a'.repeat(73));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('422 en password', () => {",
+                  "  pm.response.to.have.status(422);",
+                  "  const error = pm.response.json().error;",
+                  "  pm.expect(error.code).to.eql('AUTH_VALIDATION_ERROR');",
+                  "  pm.expect(error.details.map((item) => item.field)).to.include('password');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ana Torres\",\n  \"email\": \"{{emailMixed}}\",\n  \"password\": \"{{longPassword}}\",\n  \"confirmPassword\": \"{{longPassword}}\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "N4 Rol admin (422)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('422 en role', () => {",
+                  "  pm.response.to.have.status(422);",
+                  "  const error = pm.response.json().error;",
+                  "  pm.expect(error.code).to.eql('AUTH_VALIDATION_ERROR');",
+                  "  pm.expect(error.details.map((item) => item.field)).to.include('role');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ana Torres\",\n  \"email\": \"{{emailMixed}}\",\n  \"password\": \"{{password}}\",\n  \"confirmPassword\": \"{{password}}\",\n  \"role\": \"admin\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "N5 Campo adicional (422)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('422 en edad', () => {",
+                  "  pm.response.to.have.status(422);",
+                  "  const error = pm.response.json().error;",
+                  "  pm.expect(error.code).to.eql('AUTH_VALIDATION_ERROR');",
+                  "  pm.expect(error.details.map((item) => item.field)).to.include('edad');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ana Torres\",\n  \"email\": \"{{emailMixed}}\",\n  \"password\": \"{{password}}\",\n  \"confirmPassword\": \"{{password}}\",\n  \"edad\": 20\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "N6 confirmPassword distinta (422)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('422 en confirmPassword', () => {",
+                  "  pm.response.to.have.status(422);",
+                  "  const error = pm.response.json().error;",
+                  "  pm.expect(error.code).to.eql('AUTH_VALIDATION_ERROR');",
+                  "  pm.expect(error.details.map((item) => item.field)).to.include('confirmPassword');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/register",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ana Torres\",\n  \"email\": \"{{emailMixed}}\",\n  \"password\": \"{{password}}\",\n  \"confirmPassword\": \"{{password}} distinta\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "C. Errores de login",
+      "item": [
+        {
+          "name": "N7 Contraseña incorrecta (401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('401 INVALID_CREDENTIALS', () => {",
+                  "  pm.response.to.have.status(401);",
+                  "  pm.expect(pm.response.json().error.code).to.eql('INVALID_CREDENTIALS');",
+                  "});",
+                  "pm.collectionVariables.set('loginMessage', pm.response.json().error.message);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}} incorrecta\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "N8 Correo inexistente (401)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('401 INVALID_CREDENTIALS', () => {",
+                  "  pm.response.to.have.status(401);",
+                  "  pm.expect(pm.response.json().error.code).to.eql('INVALID_CREDENTIALS');",
+                  "});",
+                  "pm.test('Mismo mensaje que N7', () => {",
+                  "  pm.expect(pm.response.json().error.message).to.eql(pm.collectionVariables.get('loginMessage'));",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"nadie.{{email}}\",\n  \"password\": \"{{password}}\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "N9 Content-Type incorrecto (415)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('415 UNSUPPORTED_MEDIA_TYPE', () => {",
+                  "  pm.response.to.have.status(415);",
+                  "  pm.expect(pm.response.json().error.code).to.eql('UNSUPPORTED_MEDIA_TYPE');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "text/plain" }],
+            "url": "{{baseUrl}}/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "texto plano",
+              "options": { "raw": { "language": "text" } }
+            }
+          }
+        },
+        {
+          "name": "N10 JSON inválido (400)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('400 INVALID_JSON', () => {",
+                  "  pm.response.to.have.status(400);",
+                  "  pm.expect(pm.response.json().error.code).to.eql('INVALID_JSON');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\"email\":",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "D. Regresión de tareas (sin token)",
+      "item": [
+        {
+          "name": "R1 Crear tarea (201)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 201', () => pm.response.to.have.status(201));",
+                  "pm.collectionVariables.set('taskId', pm.response.json().data.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/tasks",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Probar A9\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "R2 Listar con paginación (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 200 con meta', () => {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.expect(pm.response.json().meta.limit).to.eql(5);",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/tasks?page=1&limit=5"
+          }
+        },
+        {
+          "name": "R3 Actualizar tarea (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Título actualizado', () => {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.expect(pm.response.json().data.title).to.eql('Probar A9 editada');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "url": "{{baseUrl}}/api/tasks/{{taskId}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Probar A9 editada\"\n}",
+              "options": { "raw": { "language": "json" } }
+            }
+          }
+        },
+        {
+          "name": "R4 Completar tarea (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Estado completed', () => {",
+                  "  pm.response.to.have.status(200);",
+                  "  pm.expect(pm.response.json().data.status).to.eql('completed');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": "{{baseUrl}}/api/tasks/{{taskId}}/complete"
+          }
+        },
+        {
+          "name": "R5 Consulta combinada (200)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Solo completadas que contienen A9', () => {",
+                  "  pm.response.to.have.status(200);",
+                  "  const data = pm.response.json().data;",
+                  "  pm.expect(data.length).to.be.above(0);",
+                  "  data.forEach((task) => {",
+                  "    pm.expect(task.status).to.eql('completed');",
+                  "    pm.expect(task.title.toLowerCase()).to.include('a9');",
+                  "  });",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/tasks?status=completed&search=A9&sortBy=title&order=asc"
+          }
+        },
+        {
+          "name": "R6 Eliminar tarea (204)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Responde 204 sin cuerpo', () => {",
+                  "  pm.response.to.have.status(204);",
+                  "  pm.expect(pm.response.text()).to.eql('');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/tasks/{{taskId}}"
+          }
+        },
+        {
+          "name": "R7 Consultar tarea eliminada (404)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('404 TASK_NOT_FOUND con requestId', () => {",
+                  "  pm.response.to.have.status(404);",
+                  "  pm.expect(pm.response.json().error.code).to.eql('TASK_NOT_FOUND');",
+                  "  pm.expect(pm.response.json().error.requestId).to.be.a('string');",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/tasks/{{taskId}}"
+          }
+        }
+      ]
+    }
+  ]
+}

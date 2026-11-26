@@ -57,7 +57,7 @@ const startServer = async (): Promise<void> => {
     registerShutdown(server);
   } catch {
     console.error(
-      "No fue posible iniciar la API. Revise MONGODB_URI, " +
+      "No fue posible iniciar la API. Revise las variables de .env, " +
         "el usuario y la lista de acceso de red.",
     );
     process.exitCode = 1;

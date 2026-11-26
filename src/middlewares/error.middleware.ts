@@ -6,6 +6,9 @@ import type { ApiErrorPayload } from "../types/api-error.js";
 const isInvalidJson = (error: unknown): boolean =>
   error instanceof SyntaxError && "status" in error && error.status === 400;
 
+const isPayloadTooLarge = (error: unknown): boolean =>
+  error instanceof Error && "status" in error && error.status === 413;
+
 const sendError = (
   res: Response,
   status: number,
@@ -41,6 +44,15 @@ export const errorHandler = (
     sendError(res, 400, {
       code: "INVALID_JSON",
       message: "El cuerpo contiene JSON inválido.",
+      requestId,
+    });
+    return;
+  }
+
+  if (isPayloadTooLarge(error)) {
+    sendError(res, 413, {
+      code: "PAYLOAD_TOO_LARGE",
+      message: "El cuerpo supera el tamaño permitido de 20 kb.",
       requestId,
     });
     return;

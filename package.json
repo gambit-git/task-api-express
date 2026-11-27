@@ -16,6 +16,7 @@
   "type": "module",
   "devDependencies": {
     "@eslint/js": "^10.0.1",
+    "@types/cors": "2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^26.6.4",
     "@typescript/native": "npm:typescript@^7.0.2",
@@ -27,6 +28,7 @@
   },
   "scripts": {
     "dev": "tsx watch src/server.ts",
+    "role:set": "tsx src/scripts/set-user-role.ts",
     "check": "tsc --noEmit",
     "lint": "eslint .",
     "test": "tsx --test tests/*.test.ts",
@@ -37,8 +39,11 @@
   },
   "dependencies": {
     "bcryptjs": "3.0.3",
+    "cors": "2.8.6",
     "dotenv": "^18.0.6",
     "express": "^5.2.1",
+    "express-rate-limit": "8.7.1",
+    "helmet": "8.3.0",
     "jose": "6.2.12",
     "mongoose": "^8.24.5"
   }

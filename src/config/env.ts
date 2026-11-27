@@ -48,11 +48,37 @@ export const loadJwtConfig = (): JwtConfig => {
   };
 };
 
+const readPositiveInteger = (name: string, fallback: number): number => {
+  const value = Number(process.env[name]?.trim() || fallback);
+  if (!Number.isInteger(value) || value < 1) {
+    throw new Error(`${name} debe ser un número entero mayor que cero.`);
+  }
+  return value;
+};
+
+export interface SecurityConfig {
+  corsOrigin: string;
+  authRateLimitWindowMs: number;
+  authRateLimitMax: number;
+}
+
+export const loadSecurityConfig = (): SecurityConfig => {
+  return {
+    corsOrigin: requireEnvironmentVariable("CORS_ORIGIN"),
+    authRateLimitWindowMs: readPositiveInteger(
+      "AUTH_RATE_LIMIT_WINDOW_MS",
+      900_000,
+    ),
+    authRateLimitMax: readPositiveInteger("AUTH_RATE_LIMIT_MAX", 10),
+  };
+};
+
 export interface EnvironmentConfig {
   port: number;
   mongodbUri: string;
   mongodbDbName: string;
   jwt: JwtConfig;
+  security: SecurityConfig;
 }
 
 export const loadEnvironment = (): EnvironmentConfig => {
@@ -61,5 +87,6 @@ export const loadEnvironment = (): EnvironmentConfig => {
     mongodbUri: requireEnvironmentVariable("MONGODB_URI"),
     mongodbDbName: requireEnvironmentVariable("MONGODB_DB_NAME"),
     jwt: loadJwtConfig(),
+    security: loadSecurityConfig(),
   };
 };

@@ -14,7 +14,11 @@ export type ErrorCode =
   | "AUTH_VALIDATION_ERROR"
   | "USER_EMAIL_EXISTS"
   | "INVALID_CREDENTIALS"
-  | "INVALID_TOKEN";
+  | "INVALID_TOKEN"
+  | "AUTHENTICATION_REQUIRED"
+  | "INVALID_AUTHORIZATION_HEADER"
+  | "FORBIDDEN"
+  | "AUTH_RATE_LIMIT_EXCEEDED";
 
 export class AppError extends Error {
   constructor(

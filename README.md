@@ -1,6 +1,6 @@
 # Task API Express
 
-API REST de gestión de tareas construida con Node.js, TypeScript y Express 5. Las tareas se guardan en MongoDB Atlas mediante Mongoose y permanecen disponibles después de reiniciar la API. Incluye registro de usuarios con contraseñas protegidas e inicio de sesión con tokens JWT.
+API REST de gestión de tareas construida con Node.js, TypeScript y Express 5. Las tareas se guardan en MongoDB Atlas mediante Mongoose y permanecen disponibles después de reiniciar la API. Incluye registro de usuarios con contraseñas protegidas, inicio de sesión con tokens JWT, rutas protegidas con permisos por rol y controles de seguridad HTTP.
 
 ## Requisitos
 
@@ -22,15 +22,18 @@ Edita `.env` con tus valores reales. Nunca subas `.env` a Git.
 
 ## Variables de entorno
 
-| Variable          | Descripción                                                             |
-| ----------------- | ----------------------------------------------------------------------- |
-| `PORT`            | Puerto del servidor (por defecto 3000)                                  |
-| `MONGODB_URI`     | Cadena de conexión de Atlas (secreto)                                   |
-| `MONGODB_DB_NAME` | Nombre de la base de datos (`task_api`)                                 |
-| `JWT_SECRET`      | Clave para firmar los tokens, de al menos 32 bytes aleatorios (secreto) |
-| `JWT_EXPIRES_IN`  | Duración del token, por ejemplo `15m`, `1h` o `7d` (por defecto `1h`)   |
-| `JWT_ISSUER`      | Emisor del token (por defecto `task-api-express`)                       |
-| `JWT_AUDIENCE`    | Audiencia del token (por defecto `task-api-client`)                     |
+| Variable                    | Descripción                                                                       |
+| --------------------------- | --------------------------------------------------------------------------------- |
+| `PORT`                      | Puerto del servidor (por defecto 3000)                                            |
+| `MONGODB_URI`               | Cadena de conexión de Atlas (secreto)                                             |
+| `MONGODB_DB_NAME`           | Nombre de la base de datos (`task_api`)                                           |
+| `JWT_SECRET`                | Clave para firmar los tokens, de al menos 32 bytes aleatorios (secreto)           |
+| `JWT_EXPIRES_IN`            | Duración del token, por ejemplo `15m`, `1h` o `7d` (por defecto `1h`)             |
+| `JWT_ISSUER`                | Emisor del token (por defecto `task-api-express`)                                 |
+| `JWT_AUDIENCE`              | Audiencia del token (por defecto `task-api-client`)                               |
+| `CORS_ORIGIN`               | Único origen web autorizado, por ejemplo `http://localhost:5173` (obligatorio)    |
+| `AUTH_RATE_LIMIT_WINDOW_MS` | Periodo del límite de autenticación en milisegundos (por defecto `900000`)        |
+| `AUTH_RATE_LIMIT_MAX`       | Solicitudes de autenticación permitidas por IP en cada periodo (por defecto `10`) |
 
 Para generar la clave:
 
@@ -49,7 +52,10 @@ pnpm build         # compila a dist/
 pnpm start         # ejecuta dist/server.js
 pnpm format        # prettier --write
 pnpm format:check  # prettier --check
+pnpm role:set <correo> <user|admin>  # cambia el rol de un usuario existente
 ```
+
+Después de cambiar un rol, el usuario debe iniciar sesión otra vez: el token anterior conserva el rol que tenía hasta que vence.
 
 ## Endpoints
 
@@ -59,15 +65,18 @@ pnpm format:check  # prettier --check
 | GET    | `/health/database`        | Ping a MongoDB (503 si no responde)                                                                                                                      |
 | POST   | `/api/auth/register`      | Registra un usuario (ver [Autenticación](#autenticación)); responde 201                                                                                  |
 | POST   | `/api/auth/login`         | Inicia sesión y entrega un token JWT; responde 200                                                                                                       |
+| GET    | `/api/auth/me`            | Requiere token; devuelve `data.identity` con `userId` y `role`                                                                                           |
 | GET    | `/api/tasks`              | Lista paginada con filtro, búsqueda y orden (ver [Consulta del listado](#consulta-del-listado)); responde `{ "data": [...], "meta": {...} }`             |
 | GET    | `/api/tasks/:id`          | Consulta una tarea                                                                                                                                       |
 | POST   | `/api/tasks`              | Crea una tarea (`{"title": "...", "description": "...", "priority": "high"}`; `description` y `priority` son opcionales)                                 |
 | PATCH  | `/api/tasks/:id`          | Actualización parcial: `title`, `status` (`pending` o `completed`), `priority` o varios a la vez. Rechaza cuerpos vacíos, arreglos y campos desconocidos |
 | PATCH  | `/api/tasks/:id/complete` | Marca la tarea como completada                                                                                                                           |
 | PATCH  | `/api/tasks/:id/status`   | Actualiza el estado (`{"completed": true}`)                                                                                                              |
-| DELETE | `/api/tasks/:id`          | Elimina una tarea                                                                                                                                        |
+| DELETE | `/api/tasks/:id`          | Elimina una tarea (solo `admin`)                                                                                                                         |
 
-Cada respuesta incluye el encabezado `X-Request-Id`. Los errores usan los códigos `INVALID_ID`, `INVALID_JSON`, `TASK_NOT_FOUND`, `ROUTE_NOT_FOUND`, `UNSUPPORTED_MEDIA_TYPE`, `VALIDATION_ERROR`, `QUERY_VALIDATION_ERROR`, `PERSISTENCE_VALIDATION_ERROR`, `DATABASE_UNAVAILABLE`, `AUTH_VALIDATION_ERROR`, `USER_EMAIL_EXISTS`, `INVALID_CREDENTIALS`, `INVALID_TOKEN`, `PAYLOAD_TOO_LARGE` e `INTERNAL_ERROR`.
+Todas las rutas de `/api/tasks` requieren el encabezado `Authorization: Bearer <token>`. Los roles `user` y `admin` pueden consultar, crear, actualizar y completar; solo `admin` puede eliminar. Las tareas no tienen propietario: cualquier usuario autenticado ve todas.
+
+Cada respuesta incluye el encabezado `X-Request-Id`. Los errores usan los códigos `INVALID_ID`, `INVALID_JSON`, `TASK_NOT_FOUND`, `ROUTE_NOT_FOUND`, `UNSUPPORTED_MEDIA_TYPE`, `VALIDATION_ERROR`, `QUERY_VALIDATION_ERROR`, `PERSISTENCE_VALIDATION_ERROR`, `DATABASE_UNAVAILABLE`, `AUTH_VALIDATION_ERROR`, `USER_EMAIL_EXISTS`, `INVALID_CREDENTIALS`, `INVALID_TOKEN`, `PAYLOAD_TOO_LARGE`, `AUTHENTICATION_REQUIRED`, `INVALID_AUTHORIZATION_HEADER`, `FORBIDDEN`, `AUTH_RATE_LIMIT_EXCEEDED` e `INTERNAL_ERROR`.
 
 ## Autenticación
 
@@ -102,7 +111,17 @@ Cada respuesta incluye el encabezado `X-Request-Id`. Los errores usan los códig
 }
 ```
 
-El token se firma con HS256 e incluye `sub`, `role`, `iss`, `aud`, `iat` y `exp`. Las rutas de tareas todavía son públicas; su protección corresponde a la actividad A10.
+El token se firma con HS256 e incluye `sub`, `role`, `iss`, `aud`, `iat` y `exp`.
+
+| Situación                             | Respuesta                          |
+| ------------------------------------- | ---------------------------------- |
+| Falta el encabezado `Authorization`   | `401 AUTHENTICATION_REQUIRED`      |
+| El encabezado no usa `Bearer <token>` | `401 INVALID_AUTHORIZATION_HEADER` |
+| Token falso, alterado o vencido       | `401 INVALID_TOKEN`                |
+| Rol sin permiso                       | `403 FORBIDDEN`                    |
+| Demasiadas solicitudes a `/api/auth`  | `429 AUTH_RATE_LIMIT_EXCEEDED`     |
+
+El límite se aplica a todo `/api/auth` (registro, login y `/me`) y se guarda en memoria.
 
 ## Consulta del listado
 
@@ -157,12 +176,13 @@ src/
   config/        configuración de entorno y conexión a MongoDB
   controllers/   traducen HTTP a llamadas al servicio
   errors/        AppError
-  middlewares/   request id, validaciones (incluida la consulta del listado), notFound y errorHandler
+  middlewares/   request id, autenticación, autorización, seguridad HTTP, validaciones, notFound y errorHandler
   models/        modelos de Mongoose y tipos de tareas y usuarios
   repositories/  único acceso a Mongoose: tareas (filtros, orden, paginación, CRUD) y usuarios
   routes/        rutas de tareas, autenticación y salud
+  scripts/       administración local (cambio de rol)
   services/      reglas de negocio, contraseñas, tokens y respuesta pública
-  types/         contratos tipados (errores, consulta del listado y autenticación)
+  types/         contratos tipados (errores, listado, autenticación e identidad de la solicitud)
   utils/         utilidades
   app.ts         configura Express
   server.ts      conecta a la base de datos y abre el puerto
@@ -208,12 +228,19 @@ Colección `users`:
 - `postman/postman_collections/Task-API-EC2-F3-A8.postman_collection.json`: carpeta **EC2 F3 A8 Consultas**
 - `docs/evidencias-ec3-f1-a9.md` y `docs/reflexion-ec3-f1-a9.md` (A9)
 - `postman/postman_collections/Task-API-EC3-F1-A9.postman_collection.json`: autenticación y regresión de tareas
+- `evidencias/ec3-a10.md` (A10)
+- `postman/postman_collections/Task-API-EC3-F2-A10.postman_collection.json`: acceso, roles y controles HTTP
+
+Las colecciones anteriores a la A10 envían las solicitudes de tareas sin token, por lo que en esta rama esas solicitudes responden 401.
 
 ## Seguridad
 
 - `.env` está en `.gitignore`; `.env.example` no contiene secretos.
 - Las contraseñas se guardan solo como hash bcrypt; no se registran en consola ni se devuelven.
 - El registro rechaza `role` y cualquier campo no permitido.
+- Las rutas de tareas exigen un JWT válido y la eliminación exige el rol `admin`.
+- No existe una ruta HTTP para asignar roles; se hace con `pnpm role:set`.
+- Helmet agrega cabeceras de seguridad y CORS solo autoriza `CORS_ORIGIN`. CORS no sustituye la autenticación.
 - El cuerpo JSON se limita a 20 kb y se desactiva el encabezado `X-Powered-By`.
 - Los errores inesperados no exponen stack, URI ni detalles internos al cliente.
 - Si la conexión con MongoDB falla al arrancar, la API muestra un mensaje seguro (sin URI ni contraseña) y no abre el puerto.

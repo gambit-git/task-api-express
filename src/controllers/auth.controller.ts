@@ -20,3 +20,7 @@ export const postLogin = async (
 
   res.status(200).json({ data: await loginUser(input) });
 };
+
+export const getMe = (_req: Request, res: Response): void => {
+  res.status(200).json({ data: { identity: res.locals.auth } });
+};

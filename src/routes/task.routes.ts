@@ -10,6 +10,8 @@ import {
   removeTask,
 } from "../controllers/task.controller.js";
 
+import { authenticate } from "../middlewares/authenticate.middleware.js";
+import { requireRole } from "../middlewares/authorize.middleware.js";
 import { requireJson } from "../middlewares/require-json.middleware.js";
 import { validateId } from "../middlewares/validate-id.middleware.js";
 import { validateCompleted } from "../middlewares/validate-completed.middleware.js";
@@ -21,6 +23,7 @@ import { validateTitle } from "../middlewares/validate-title.middleware.js";
 
 export const taskRouter = Router();
 
+taskRouter.use(authenticate);
 taskRouter.param("id", validateId);
 
 taskRouter.get("/", validateTaskQuery, getTasks);
@@ -41,4 +44,4 @@ taskRouter.patch(
   validateCompleted,
   patchTaskStatus,
 );
-taskRouter.delete("/:id", removeTask);
+taskRouter.delete("/:id", requireRole("admin"), removeTask);

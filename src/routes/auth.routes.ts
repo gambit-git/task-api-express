@@ -1,7 +1,13 @@
 import { Router } from "express";
 
-import { postLogin, postRegister } from "../controllers/auth.controller.js";
+import {
+  getMe,
+  postLogin,
+  postRegister,
+} from "../controllers/auth.controller.js";
+import { authenticate } from "../middlewares/authenticate.middleware.js";
 import { requireJson } from "../middlewares/require-json.middleware.js";
+import { authRateLimiter } from "../middlewares/security.middleware.js";
 import {
   validateLogin,
   validateRegister,
@@ -9,5 +15,7 @@ import {
 
 export const authRouter = Router();
 
+authRouter.use(authRateLimiter);
 authRouter.post("/register", requireJson, validateRegister, postRegister);
 authRouter.post("/login", requireJson, validateLogin, postLogin);
+authRouter.get("/me", authenticate, getMe);
